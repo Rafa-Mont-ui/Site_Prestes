@@ -94,7 +94,7 @@ export function Hero() {
           >
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-2 sm:col-span-1 rounded-2xl bg-card border border-border p-6 shadow-lg">
-                <div className="text-4xl font-bold text-primary">+10 anos</div>
+                <div className="text-4xl font-bold text-primary">+25 anos</div>
                 <p className="mt-2 text-sm text-muted-foreground">de experiência no mercado</p>
               </div>
               <div className="col-span-2 sm:col-span-1 rounded-2xl bg-card border border-border p-6 shadow-lg">
@@ -102,7 +102,7 @@ export function Hero() {
                 <p className="mt-2 text-sm text-muted-foreground">clientes satisfeitos</p>
               </div>
               <div className="col-span-2 rounded-2xl bg-primary p-6 shadow-lg text-primary-foreground">
-                <div className="text-4xl font-bold">R$ 500 milhões</div>
+                <div className="text-4xl font-bold">R$ 70 milhões</div>
                 <p className="mt-2 text-sm text-primary-foreground/80">em créditos comercializados</p>
               </div>
               <div className="col-span-2 sm:col-span-1 rounded-2xl bg-card border border-border p-6 shadow-lg">
