@@ -1,54 +1,239 @@
 "use client"
 
-import { useState, useMemo } from "react"
-import { Home, Car, Bike, Wrench, ArrowRight } from "lucide-react"
+import { useState, useMemo, useEffect } from "react"
+import { Car, Home, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-const categories = [
-  { id: "imoveis", name: "Imóveis", icon: Home, minCredit: 80000, maxCredit: 1500000, months: [120, 150, 180, 200, 240], taxRate: 0.0010 },
-  { id: "veiculos", name: "Veículos", icon: Car, minCredit: 30000, maxCredit: 300000, months: [60, 72, 80, 84, 100], taxRate: 0.0014 },
-  { id: "motos", name: "Motos", icon: Bike, minCredit: 10000, maxCredit: 80000, months: [48, 60, 72, 80], taxRate: 0.0014 },
-  { id: "servicos", name: "Serviços", icon: Wrench, minCredit: 20000, maxCredit: 150000, months: [48, 60, 72, 80, 100], taxRate: 0.0012 },
+type Plan = { months: number; adminRate: number }
+type CreditRange = { min: number; max: number; plans: Plan[] }
+type ProductType = {
+  id: string
+  name: string
+  icon: typeof Car
+  items: string[]
+  minCredit: number
+  maxCredit: number
+  fundRate: number
+  ranges: CreditRange[]
+}
+
+const productTypes: ProductType[] = [
+  {
+    id: "moveis",
+    name: "Bens Móveis",
+    icon: Car,
+    items: ["Carros", "Motos", "Caminhões", "Vans", "Barcos", "Linha Amarela"],
+    minCredit: 10000,
+    maxCredit: 800000,
+    fundRate: 0,
+    ranges: [
+      {
+        min: 10000,
+        max: 78000,
+        plans: [
+          { months: 40, adminRate: 0.105 },
+          { months: 60, adminRate: 0.135 },
+          { months: 80, adminRate: 0.165 },
+        ],
+      },
+      {
+        min: 78001,
+        max: 100000,
+        plans: [
+          { months: 40, adminRate: 0.085 },
+          { months: 60, adminRate: 0.105 },
+          { months: 80, adminRate: 0.135 },
+          { months: 100, adminRate: 0.165 },
+        ],
+      },
+      {
+        min: 100001,
+        max: 800000,
+        plans: [
+          { months: 40, adminRate: 0.085 },
+          { months: 60, adminRate: 0.105 },
+          { months: 90, adminRate: 0.135 },
+          { months: 120, adminRate: 0.165 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "imoveis",
+    name: "Bens Imóveis",
+    icon: Home,
+    items: ["Novo ou Usado", "Residencial", "Comercial", "Rural", "Reforma e Construção"],
+    minCredit: 80000,
+    maxCredit: 1500000,
+    fundRate: 0.005,
+    ranges: [
+      {
+        min: 80000,
+        max: 1500000,
+        plans: [
+          { months: 120, adminRate: 0.13 },
+          { months: 150, adminRate: 0.16 },
+          { months: 180, adminRate: 0.19 },
+          { months: 210, adminRate: 0.22 },
+          { months: 240, adminRate: 0.25 },
+        ],
+      },
+    ],
+  },
 ]
 
-type SimulationType = "parcela" | "credito"
+function getRangeForCredit(type: ProductType, credit: number): CreditRange {
+  return (
+    type.ranges.find((r) => credit >= r.min && credit <= r.max) ??
+    (credit < type.ranges[0].min ? type.ranges[0] : type.ranges[type.ranges.length - 1])
+  )
+}
 
-export function Calculator() {
-  const [activeCategory, setActiveCategory] = useState(categories[0])
-  const [simulationType, setSimulationType] = useState<SimulationType>("credito")
-  const [creditValue, setCreditValue] = useState(activeCategory.minCredit + (activeCategory.maxCredit - activeCategory.minCredit) / 2)
-  const [selectedMonths, setSelectedMonths] = useState(activeCategory.months[Math.floor(activeCategory.months.length / 2)])
+function getParcelBounds(type: ProductType, months: number) {
+  let minParcel = Infinity
+  let maxParcel = 0
 
-  const handleCategoryChange = (category: typeof categories[0]) => {
-    setActiveCategory(category)
-    setCreditValue(category.minCredit + (category.maxCredit - category.minCredit) / 2)
-    setSelectedMonths(category.months[Math.floor(category.months.length / 2)])
+  for (const range of type.ranges) {
+    const plan = range.plans.find((p) => p.months === months) ?? range.plans[range.plans.length - 1]
+    const factor = (1 + plan.adminRate + type.fundRate) / plan.months
+    minParcel = Math.min(minParcel, range.min * factor)
+    maxParcel = Math.max(maxParcel, range.max * factor)
   }
 
-  const { monthlyPayment, totalAdminFee, totalPayment } = useMemo(() => {
-    const adminFee = creditValue * activeCategory.taxRate * selectedMonths
-    const fundReserve = creditValue * 0.02
-    const total = creditValue + adminFee + fundReserve
-    const monthly = total / selectedMonths
+  return { minParcel: Math.round(minParcel), maxParcel: Math.round(maxParcel) }
+}
 
-    return {
-      monthlyPayment: monthly,
-      totalAdminFee: adminFee,
-      totalPayment: total,
+function parcelFromCredit(type: ProductType, credit: number, months: number) {
+  const range = getRangeForCredit(type, credit)
+  const plan = range.plans.find((p) => p.months === months) ?? range.plans[0]
+  const total = credit * (1 + plan.adminRate + type.fundRate)
+  return total / plan.months
+}
+
+function creditFromParcel(type: ProductType, parcel: number, months: number) {
+  let range = type.ranges[0]
+  let credit = type.minCredit
+
+  for (let i = 0; i < 3; i++) {
+    const plan = range.plans.find((p) => p.months === months) ?? range.plans[0]
+    credit = (parcel * plan.months) / (1 + plan.adminRate + type.fundRate)
+    range = getRangeForCredit(type, credit)
+  }
+
+  return credit
+}
+
+type SimulationType = "credito" | "parcela"
+
+export function Calculator() {
+  const [activeType, setActiveType] = useState(productTypes[0])
+  const [activeItem, setActiveItem] = useState(productTypes[0].items[0])
+  const [simulationType, setSimulationType] = useState<SimulationType>("credito")
+  const [selectedMonths, setSelectedMonths] = useState(productTypes[0].ranges[0].plans[0].months)
+  const [creditValue, setCreditValue] = useState(
+    Math.round((productTypes[0].minCredit + productTypes[0].maxCredit) / 2)
+  )
+  const initialBounds = getParcelBounds(productTypes[0], productTypes[0].ranges[0].plans[0].months)
+  const [parcelValue, setParcelValue] = useState(
+    Math.round((initialBounds.minParcel + initialBounds.maxParcel) / 2)
+  )
+
+  const currentRange = useMemo(
+    () =>
+      simulationType === "credito"
+        ? getRangeForCredit(activeType, creditValue)
+        : getRangeForCredit(activeType, creditFromParcel(activeType, parcelValue, selectedMonths)),
+    [activeType, creditValue, parcelValue, selectedMonths, simulationType]
+  )
+
+  const parcelBounds = useMemo(
+    () => getParcelBounds(activeType, selectedMonths),
+    [activeType, selectedMonths]
+  )
+
+  const computedCredit = useMemo(() => {
+    if (simulationType === "credito") return creditValue
+    return creditFromParcel(activeType, parcelValue, selectedMonths)
+  }, [simulationType, creditValue, activeType, parcelValue, selectedMonths])
+
+  const computedParcel = useMemo(() => {
+    if (simulationType === "parcela") return parcelValue
+    return parcelFromCredit(activeType, creditValue, selectedMonths)
+  }, [simulationType, parcelValue, activeType, creditValue, selectedMonths])
+
+  // Garante que o prazo selecionado existe na faixa atual de crédito
+  useEffect(() => {
+    const available = currentRange.plans.map((p) => p.months)
+    if (!available.includes(selectedMonths)) {
+      setSelectedMonths(available[Math.floor(available.length / 2)])
     }
-  }, [creditValue, selectedMonths, activeCategory.taxRate])
+  }, [currentRange, selectedMonths])
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
+  useEffect(() => {
+    if (simulationType !== "parcela") return
+    if (parcelValue < parcelBounds.minParcel) {
+      setParcelValue(parcelBounds.minParcel)
+    } else if (parcelValue > parcelBounds.maxParcel) {
+      setParcelValue(parcelBounds.maxParcel)
+    }
+  }, [parcelBounds, parcelValue, simulationType])
+
+  const handleTypeChange = (type: ProductType) => {
+    setActiveType(type)
+    setActiveItem(type.items[0])
+    const months = type.ranges[0].plans[Math.floor(type.ranges[0].plans.length / 2)].months
+    setSelectedMonths(months)
+    const midCredit = Math.round((type.minCredit + type.maxCredit) / 2)
+    setCreditValue(midCredit)
+    const bounds = getParcelBounds(type, months)
+    setParcelValue(Math.round((bounds.minParcel + bounds.maxParcel) / 2))
+  }
+
+  const handleSimulationTypeChange = (type: SimulationType) => {
+    if (type === simulationType) return
+
+    if (type === "credito") {
+      const credit = creditFromParcel(activeType, parcelValue, selectedMonths)
+      const clamped = Math.min(Math.max(credit, activeType.minCredit), activeType.maxCredit)
+      setCreditValue(Math.round(clamped))
+    } else {
+      const parcel = parcelFromCredit(activeType, creditValue, selectedMonths)
+      const clamped = Math.min(Math.max(parcel, parcelBounds.minParcel), parcelBounds.maxParcel)
+      setParcelValue(Math.round(clamped))
+    }
+
+    setSimulationType(type)
+  }
+
+  const adminRate = useMemo(() => {
+    const plan =
+      currentRange.plans.find((p) => p.months === selectedMonths) ?? currentRange.plans[0]
+    return plan.adminRate
+  }, [currentRange, selectedMonths])
+
+  const sliderMin = simulationType === "credito" ? activeType.minCredit : parcelBounds.minParcel
+  const sliderMax = simulationType === "credito" ? activeType.maxCredit : parcelBounds.maxParcel
+  const sliderValue = simulationType === "credito" ? creditValue : parcelValue
+  const sliderStep = simulationType === "credito" ? 1000 : 50
+
+  const formatCurrency = (value: number) =>
+    new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(value)
-  }
 
-  const sliderProgress = ((creditValue - activeCategory.minCredit) / (activeCategory.maxCredit - activeCategory.minCredit)) * 100
+  const sliderProgress = ((sliderValue - sliderMin) / (sliderMax - sliderMin)) * 100
+
+  const handleSliderChange = (value: number) => {
+    if (simulationType === "credito") {
+      setCreditValue(value)
+    } else {
+      setParcelValue(value)
+    }
+  }
 
   return (
     <section id="simulador" className="py-16 lg:py-24 bg-secondary/50">
@@ -58,134 +243,167 @@ export function Calculator() {
             Simule seu consórcio agora
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            Escolha o tipo de consórcio, defina o valor do crédito e descubra a parcela ideal para realizar seus sonhos.
+            Escolha o tipo de bem, defina o valor do crédito ou da parcela e descubra a simulação ideal para realizar seus sonhos.
           </p>
         </div>
 
         <div className="max-w-4xl mx-auto">
           <div className="bg-card rounded-3xl shadow-xl border border-border overflow-hidden">
-            {/* Category tabs */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 border-b border-border">
-              {categories.map((category) => {
-                const Icon = category.icon
+            {/* Tipos de bem */}
+            <div className="grid grid-cols-2 border-b border-border">
+              {productTypes.map((type) => {
+                const Icon = type.icon
                 return (
                   <button
-                    key={category.id}
-                    onClick={() => handleCategoryChange(category)}
+                    key={type.id}
+                    onClick={() => handleTypeChange(type)}
                     className={cn(
                       "flex flex-col items-center gap-2 py-5 px-4 transition-all",
-                      activeCategory.id === category.id
+                      activeType.id === type.id
                         ? "bg-primary text-primary-foreground"
                         : "bg-card text-muted-foreground hover:bg-secondary"
                     )}
                   >
                     <Icon className="h-6 w-6" />
-                    <span className="text-sm font-medium">{category.name}</span>
+                    <span className="text-sm font-medium">{type.name}</span>
                   </button>
                 )
               })}
             </div>
 
             <div className="p-6 lg:p-8">
-              {/* Simulation type toggle */}
-              <div className="flex justify-center mb-8">
-                <div className="inline-flex rounded-full bg-secondary p-1">
-                  <button
-                    onClick={() => setSimulationType("parcela")}
-                    className={cn(
-                      "rounded-full px-6 py-2 text-sm font-medium transition-all",
-                      simulationType === "parcela"
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "text-muted-foreground hover:text-foreground"
-                    )}
-                  >
-                    Por Parcela
-                  </button>
-                  <button
-                    onClick={() => setSimulationType("credito")}
-                    className={cn(
-                      "rounded-full px-6 py-2 text-sm font-medium transition-all",
-                      simulationType === "credito"
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "text-muted-foreground hover:text-foreground"
-                    )}
-                  >
-                    Por Crédito
-                  </button>
-                </div>
-              </div>
-
-              {/* Credit value display and slider */}
-              <div className="mb-8">
-                <label className="block text-sm font-medium text-muted-foreground mb-2">
-                  {simulationType === "credito" ? "Valor do Crédito" : "Valor desejado da parcela"}
-                </label>
-                <div className="text-center mb-6">
-                  <span className="text-4xl lg:text-5xl font-bold text-primary">
-                    {formatCurrency(creditValue)}
-                  </span>
-                </div>
-                
-                <div className="relative">
-                  <input
-                    type="range"
-                    min={activeCategory.minCredit}
-                    max={activeCategory.maxCredit}
-                    step={1000}
-                    value={creditValue}
-                    onChange={(e) => setCreditValue(Number(e.target.value))}
-                    className="w-full h-2 rounded-full appearance-none cursor-pointer"
-                    style={{ "--slider-progress": `${sliderProgress}%` } as React.CSSProperties}
-                  />
-                  <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-                    <span>{formatCurrency(activeCategory.minCredit)}</span>
-                    <span>{formatCurrency(activeCategory.maxCredit)}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Months selection */}
+              {/* Itens do tipo selecionado */}
               <div className="mb-8">
                 <label className="block text-sm font-medium text-muted-foreground mb-3">
-                  Prazo em meses
+                  O que você quer adquirir?
                 </label>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  {activeCategory.months.map((months) => (
+                  {activeType.items.map((item) => (
                     <button
-                      key={months}
-                      onClick={() => setSelectedMonths(months)}
+                      key={item}
+                      onClick={() => setActiveItem(item)}
                       className={cn(
-                        "px-5 py-2.5 rounded-full text-sm font-medium transition-all",
-                        selectedMonths === months
+                        "px-4 py-2 rounded-full text-sm font-medium transition-all",
+                        activeItem === item
                           ? "bg-primary text-primary-foreground shadow-md"
                           : "bg-secondary text-muted-foreground hover:bg-primary/10 hover:text-primary"
                       )}
                     >
-                      {months}x
+                      {item}
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Results */}
+              {/* Valor desejado com alternância crédito/parcela */}
+              <div className="mb-8">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+                  <label className="text-sm font-medium text-muted-foreground">
+                    Valor desejado
+                  </label>
+                  <div className="inline-flex rounded-full bg-secondary p-1 self-center sm:self-auto">
+                    <button
+                      onClick={() => handleSimulationTypeChange("credito")}
+                      className={cn(
+                        "rounded-full px-5 py-2 text-sm font-medium transition-all",
+                        simulationType === "credito"
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      Por Crédito
+                    </button>
+                    <button
+                      onClick={() => handleSimulationTypeChange("parcela")}
+                      className={cn(
+                        "rounded-full px-5 py-2 text-sm font-medium transition-all",
+                        simulationType === "parcela"
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      Por Parcela
+                    </button>
+                  </div>
+                </div>
+
+                <p className="text-center text-sm text-muted-foreground mb-2">
+                  {simulationType === "credito" ? "Valor do crédito" : "Valor da parcela"}
+                </p>
+                <div className="text-center mb-6">
+                  <span className="text-4xl lg:text-5xl font-bold text-primary">
+                    {formatCurrency(sliderValue)}
+                  </span>
+                </div>
+
+                <div className="relative">
+                  <input
+                    type="range"
+                    min={sliderMin}
+                    max={sliderMax}
+                    step={sliderStep}
+                    value={sliderValue}
+                    onChange={(e) => handleSliderChange(Number(e.target.value))}
+                    className="w-full h-2 rounded-full appearance-none cursor-pointer"
+                    style={{ "--slider-progress": `${sliderProgress}%` } as React.CSSProperties}
+                  />
+                  <div className="flex justify-between mt-2 text-xs text-muted-foreground">
+                    <span>{formatCurrency(sliderMin)}</span>
+                    <span>{formatCurrency(sliderMax)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Prazos */}
+              <div className="mb-8">
+                <label className="block text-sm font-medium text-muted-foreground mb-3">
+                  Prazo em meses
+                </label>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {currentRange.plans.map((plan) => (
+                    <button
+                      key={plan.months}
+                      onClick={() => setSelectedMonths(plan.months)}
+                      className={cn(
+                        "px-5 py-2.5 rounded-full text-sm font-medium transition-all",
+                        selectedMonths === plan.months
+                          ? "bg-primary text-primary-foreground shadow-md"
+                          : "bg-secondary text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                      )}
+                    >
+                      {plan.months}x
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Resultados */}
               <div className="bg-secondary/70 rounded-2xl p-6 mb-6">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Parcela mensal</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      {simulationType === "credito" ? "Parcela mensal" : "Crédito estimado"}
+                    </p>
                     <p className="text-2xl lg:text-3xl font-bold text-primary">
-                      {formatCurrency(monthlyPayment)}
+                      {formatCurrency(
+                        simulationType === "credito" ? computedParcel : computedCredit
+                      )}
                     </p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground mb-1">Taxa de administração</p>
                     <p className="text-xl font-semibold text-foreground">
-                      {(activeCategory.taxRate * 100).toFixed(2)}% a.m.
+                      {(adminRate * 100).toFixed(1).replace(".", ",")}%
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Crédito</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      {simulationType === "credito" ? "Crédito" : "Parcela mensal"}
+                    </p>
                     <p className="text-xl font-semibold text-foreground">
-                      {formatCurrency(creditValue)}
+                      {formatCurrency(
+                        simulationType === "credito" ? computedCredit : computedParcel
+                      )}
                     </p>
                   </div>
                 </div>
@@ -205,7 +423,11 @@ export function Calculator() {
               </div>
 
               <p className="text-xs text-muted-foreground text-center mt-6">
-                *Valores simulados. A parcela pode variar de acordo com o grupo e condições vigentes. 
+                *Valores simulados. A parcela pode variar de acordo com o grupo e condições vigentes.
+                {activeType.fundRate > 0 &&
+                  ` Inclui fundo de reserva de ${(activeType.fundRate * 100)
+                    .toFixed(1)
+                    .replace(".", ",")}%.`}{" "}
                 Regulamentado pelo Banco Central do Brasil.
               </p>
             </div>

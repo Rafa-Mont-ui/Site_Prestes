@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRight, Phone } from "lucide-react"
+import { ArrowRight, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
@@ -37,13 +37,13 @@ export function CTA() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ delay: 0.1, duration: 0.45 }}
             >
-              <div className="mb-6">
+              <div className="mb-6 inline-flex rounded-2xl bg-white p-3 shadow-sm mx-auto lg:mx-0">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-04-28%20at%2012.55.10-Zqc1VQp2KqXbtXKXPO47eROMDizvNR.jpeg"
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-04-28%20at%2012.55.38-a2FO0mTv2HycQZgNkFXa8xU1cYYKlA.jpeg"
                   alt="Prestes Consórcios"
-                  width={80}
-                  height={80}
-                  className="h-16 w-auto mx-auto lg:mx-0 brightness-0 invert"
+                  width={64}
+                  height={64}
+                  className="h-12 w-auto"
                 />
               </div>
               <h2 className="text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl text-balance">
@@ -67,9 +67,13 @@ export function CTA() {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" className="text-base border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10" asChild>
+              <Button
+                size="lg"
+                className="text-base bg-[#25D366] text-white hover:bg-[#128C7E] border-0"
+                asChild
+              >
                 <a href="https://wa.me/5541999999999" target="_blank" rel="noopener noreferrer">
-                  <Phone className="mr-2 h-5 w-5" />
+                  <MessageCircle className="mr-2 h-5 w-5" />
                   WhatsApp
                 </a>
               </Button>
