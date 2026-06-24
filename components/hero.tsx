@@ -105,11 +105,7 @@ export function Hero() {
                 <div className="text-4xl font-bold">R$ 70 milhões</div>
                 <p className="mt-2 text-sm text-primary-foreground/80">em créditos comercializados</p>
               </div>
-              <div className="col-span-2 sm:col-span-1 rounded-2xl bg-card border border-border p-6 shadow-lg">
-                <div className="text-4xl font-bold text-foreground">0%</div>
-                <p className="mt-2 text-sm text-muted-foreground">de juros nas parcelas</p>
-              </div>
-              <div className="col-span-2 sm:col-span-1 rounded-2xl bg-foreground p-6 shadow-lg text-background">
+              <div className="col-span-2 rounded-2xl bg-foreground p-6 shadow-lg text-background">
                 <div className="text-4xl font-bold">+98%</div>
                 <p className="mt-2 text-sm text-background/80">de aprovação</p>
               </div>

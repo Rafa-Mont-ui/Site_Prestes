@@ -50,7 +50,13 @@ export function HowItWorks() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="relative">
+          <div
+            className="hidden lg:block absolute top-12 left-[12.5%] right-[12.5%] h-[2px] bg-background/20 z-0 pointer-events-none"
+            aria-hidden
+          />
+
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step, index) => {
             const Icon = step.icon
             return (
@@ -62,19 +68,16 @@ export function HowItWorks() {
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ delay: index * 0.1, duration: 0.45 }}
               >
-                {/* Connection line */}
-                {index < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] h-[2px] bg-background/20" />
-                )}
-                
                 <div className="text-center">
-                  <div className="relative inline-flex mb-6">
-                    <div className="w-24 h-24 rounded-full bg-background/10 flex items-center justify-center">
-                      <Icon className="h-10 w-10 text-primary" />
+                  <div className="relative flex justify-center items-center h-24 mb-6">
+                    <div className="relative z-10 inline-flex">
+                      <div className="w-24 h-24 rounded-full bg-foreground ring-1 ring-background/20 flex items-center justify-center">
+                        <Icon className="h-10 w-10 text-primary" />
+                      </div>
+                      <span className="absolute -top-2 -right-2 z-20 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">
+                        {step.step}
+                      </span>
                     </div>
-                    <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">
-                      {step.step}
-                    </span>
                   </div>
                   <h3 className="text-xl font-semibold mb-3">
                     {step.title}
@@ -86,6 +89,7 @@ export function HowItWorks() {
               </motion.div>
             )
           })}
+          </div>
         </div>
       </div>
     </section>
