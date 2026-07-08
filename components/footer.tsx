@@ -4,19 +4,19 @@ import { Instagram, Facebook, Linkedin, Mail, Phone, MapPin } from "lucide-react
 
 const navigation = {
   produtos: [
-    { name: "Consórcio de Imóveis", href: "#simulador" },
-    { name: "Consórcio de Veículos", href: "#simulador" },
-    { name: "Consórcio de Motos", href: "#simulador" },
-    { name: "Consórcio de Serviços", href: "#simulador" },
+    { name: "Consórcio de Imóveis", href: "/#simulador" },
+    { name: "Consórcio de Veículos", href: "/#simulador" },
+    { name: "Consórcio de Motos", href: "/#simulador" },
+    { name: "Consórcio de Serviços", href: "/#simulador" },
   ],
   empresa: [
-    { name: "Sobre Nós", href: "#" },
-    { name: "Como Funciona", href: "#como-funciona" },
-    { name: "Vantagens", href: "#vantagens" },
-    { name: "Contato", href: "#" },
+    { name: "Sobre Nós", href: "/sobre" },
+    { name: "Como Funciona", href: "/#como-funciona" },
+    { name: "Vantagens", href: "/#vantagens" },
+    { name: "Contato", href: "https://wa.me/5541999999999" },
   ],
   suporte: [
-    { name: "Perguntas Frequentes", href: "#duvidas" },
+    { name: "Perguntas Frequentes", href: "/#duvidas" },
     { name: "Política de Privacidade", href: "#" },
     { name: "Termos de Uso", href: "#" },
   ],
@@ -101,9 +101,20 @@ export function Footer() {
                 <ul role="list" className="mt-4 space-y-3">
                   {navigation.empresa.map((item) => (
                     <li key={item.name}>
-                      <Link href={item.href} className="text-sm text-background/70 hover:text-primary transition-colors">
-                        {item.name}
-                      </Link>
+                      {item.href.startsWith("http") ? (
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-background/70 hover:text-primary transition-colors"
+                        >
+                          {item.name}
+                        </a>
+                      ) : (
+                        <Link href={item.href} className="text-sm text-background/70 hover:text-primary transition-colors">
+                          {item.name}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>

@@ -41,9 +41,9 @@ export function CTA() {
                 <Image
                   src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-04-28%20at%2012.55.38-a2FO0mTv2HycQZgNkFXa8xU1cYYKlA.jpeg"
                   alt="Prestes Consórcios"
-                  width={64}
-                  height={64}
-                  className="h-12 w-auto"
+                  width={70}
+                  height={70}
+                  className="h-auto w-auto"
                 />
               </div>
               <h2 className="text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl text-balance">
@@ -62,7 +62,7 @@ export function CTA() {
               transition={{ delay: 0.15, duration: 0.45 }}
             >
               <Button size="lg" variant="secondary" className="text-base" asChild>
-                <Link href="#simulador">
+                <Link href="/#simulador">
                   Simular Agora
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>

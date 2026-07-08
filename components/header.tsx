@@ -7,11 +7,12 @@ import { Menu, X, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const navigation = [
-  { name: "Início", href: "#inicio" },
-  { name: "Simulador", href: "#simulador" },
-  { name: "Vantagens", href: "#vantagens" },
-  { name: "Como Funciona", href: "#como-funciona" },
-  { name: "Dúvidas", href: "#duvidas" },
+  { name: "Início", href: "/#inicio" },
+  { name: "Simulador", href: "/#simulador" },
+  { name: "Vantagens", href: "/#vantagens" },
+  { name: "Como Funciona", href: "/#como-funciona" },
+  { name: "Sobre Nós", href: "/sobre" },
+  { name: "Dúvidas", href: "/#duvidas" },
 ]
 
 export function Header() {
@@ -64,7 +65,7 @@ export function Header() {
             </a>
           </Button>
           <Button size="sm" asChild>
-            <Link href="#simulador">
+            <Link href="/#simulador">
               Simular Agora
             </Link>
           </Button>
@@ -117,7 +118,7 @@ export function Header() {
                   </a>
                 </Button>
                 <Button className="w-full" asChild>
-                  <Link href="#simulador" onClick={() => setMobileMenuOpen(false)}>
+                  <Link href="/#simulador" onClick={() => setMobileMenuOpen(false)}>
                     Simular Agora
                   </Link>
                 </Button>
