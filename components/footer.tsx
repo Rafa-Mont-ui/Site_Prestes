@@ -2,12 +2,13 @@ import Image from "next/image"
 import Link from "next/link"
 import { Instagram, Facebook, Linkedin, Mail, Phone, MapPin } from "lucide-react"
 
+const LOGO_SRC = "/logo-prestes.jpg"
+
 const navigation = {
   produtos: [
     { name: "Consórcio de Imóveis", href: "/#simulador" },
     { name: "Consórcio de Veículos", href: "/#simulador" },
     { name: "Consórcio de Motos", href: "/#simulador" },
-    { name: "Consórcio de Serviços", href: "/#simulador" },
   ],
   empresa: [
     { name: "Sobre Nós", href: "/sobre" },
@@ -21,44 +22,43 @@ const navigation = {
     { name: "Termos de Uso", href: "#" },
   ],
   social: [
-    { name: "Instagram", href: "https://instagram.com", icon: Instagram },
-    { name: "Facebook", href: "https://facebook.com", icon: Facebook },
-    { name: "LinkedIn", href: "https://linkedin.com", icon: Linkedin },
+    { name: "Instagram", href: "https://www.instagram.com/prestesconsorcios/", icon: Instagram },
+    { name: "Facebook", href: "https://web.facebook.com/p/Prestes-Cons%C3%B3rcios-100086437242114/?_rdc=1&_rdr#", icon: Facebook },
   ],
 }
 
 export function Footer() {
   return (
-    <footer className="bg-foreground text-background" aria-labelledby="footer-heading">
+    <footer className="bg-footer text-footer-foreground" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">Rodapé</h2>
-      
+
       <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-16">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           {/* Logo and contact */}
           <div className="space-y-6">
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-04-28%20at%2012.55.10-Zqc1VQp2KqXbtXKXPO47eROMDizvNR.jpeg"
+              src={LOGO_SRC}
               alt="Prestes Consórcios"
               width={120}
               height={120}
               className="h-20 w-auto"
             />
-            <p className="text-sm text-background/70 leading-relaxed max-w-xs">
-              Realizando sonhos há mais de 10 anos. Consórcios de imóveis, veículos e serviços com as melhores condições do mercado.
+            <p className="text-sm text-footer-foreground/70 leading-relaxed max-w-xs">
+              Realizando sonhos há mais de 10 anos. Consórcios de imóveis, veículos e motos com as melhores condições do mercado.
             </p>
             
             <div className="space-y-3">
-              <div className="flex items-center gap-3 text-sm text-background/70">
+              <div className="flex items-center gap-3 text-sm text-footer-foreground/70">
                 <Phone className="h-4 w-4 text-primary" />
                 <span>(41) 99999-9999</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-background/70">
+              <div className="flex items-center gap-3 text-sm text-footer-foreground/70">
                 <Mail className="h-4 w-4 text-primary" />
-                <span>contato@prestesconsorcios.com.br</span>
+                <span>prestes_consorcios@hotmail.com</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-background/70">
-                <MapPin className="h-4 w-4 text-primary" />
-                <span>Curitiba, PR</span>
+              <div className="flex items-start gap-3 text-sm text-footer-foreground/70">
+                <MapPin className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                <span>Tv. Benjamin Lins de Assis, 147 - Afonso Pena, São José dos Pinhais - PR</span>
               </div>
             </div>
 
@@ -71,7 +71,7 @@ export function Footer() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary transition-colors"
+                    className="w-10 h-10 rounded-full bg-footer-foreground/10 flex items-center justify-center hover:bg-primary transition-colors"
                   >
                     <span className="sr-only">{item.name}</span>
                     <Icon className="h-5 w-5" />
@@ -89,7 +89,7 @@ export function Footer() {
                 <ul role="list" className="mt-4 space-y-3">
                   {navigation.produtos.map((item) => (
                     <li key={item.name}>
-                      <Link href={item.href} className="text-sm text-background/70 hover:text-primary transition-colors">
+                      <Link href={item.href} className="text-sm text-footer-foreground/70 hover:text-primary transition-colors">
                         {item.name}
                       </Link>
                     </li>
@@ -106,12 +106,12 @@ export function Footer() {
                           href={item.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm text-background/70 hover:text-primary transition-colors"
+                          className="text-sm text-footer-foreground/70 hover:text-primary transition-colors"
                         >
                           {item.name}
                         </a>
                       ) : (
-                        <Link href={item.href} className="text-sm text-background/70 hover:text-primary transition-colors">
+                        <Link href={item.href} className="text-sm text-footer-foreground/70 hover:text-primary transition-colors">
                           {item.name}
                         </Link>
                       )}
@@ -125,7 +125,7 @@ export function Footer() {
               <ul role="list" className="mt-4 space-y-3">
                 {navigation.suporte.map((item) => (
                   <li key={item.name}>
-                    <Link href={item.href} className="text-sm text-background/70 hover:text-primary transition-colors">
+                    <Link href={item.href} className="text-sm text-footer-foreground/70 hover:text-primary transition-colors">
                       {item.name}
                     </Link>
                   </li>
@@ -136,12 +136,12 @@ export function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-12 border-t border-background/10 pt-8">
+        <div className="mt-12 border-t border-footer-foreground/10 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-xs text-background/50">
+            <p className="text-xs text-footer-foreground/50">
               © {new Date().getFullYear()} Prestes Consórcios. Todos os direitos reservados.
             </p>
-            <p className="text-xs text-background/50 text-center">
+            <p className="text-xs text-footer-foreground/50 text-center">
               Regulamentado pelo Banco Central do Brasil. Administrado por parceiros autorizados.
             </p>
           </div>

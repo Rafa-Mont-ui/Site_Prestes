@@ -2,6 +2,7 @@
 
 import { ArrowRight, CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Calculator } from "@/components/calculator"
 import Link from "next/link"
 import { motion } from "framer-motion"
 
@@ -26,10 +27,10 @@ export function Hero() {
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.6 }}
       >
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid items-start lg:grid-cols-2 lg:items-center xl:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] gap-8 lg:gap-10 xl:gap-12">
           {/* Left content */}
           <motion.div
-            className="max-w-xl"
+            className="max-w-xl min-w-0"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -69,7 +70,7 @@ export function Hero() {
               ))}
             </div>
 
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+            <div className="mt-10 flex flex-col sm:flex-row gap-4 lg:hidden">
               <Button size="lg" asChild>
                 <Link href="/#simulador">
                   Simular Consórcio
@@ -82,34 +83,32 @@ export function Hero() {
                 </Link>
               </Button>
             </div>
+
+            <div className="hidden lg:flex mt-10">
+              <Button variant="outline" size="lg" asChild>
+                <Link href="/#como-funciona">
+                  Como Funciona
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+            </div>
           </motion.div>
 
-          {/* Right content - Stats */}
+          {/* Simulador */}
           <motion.div
-            className="relative"
+            className="relative w-full min-w-0"
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-2 sm:col-span-1 rounded-2xl bg-card border border-border p-6 shadow-lg">
-                <div className="text-4xl font-bold text-primary">+25 anos</div>
-                <p className="mt-2 text-sm text-muted-foreground">de experiência no mercado</p>
-              </div>
-              <div className="col-span-2 sm:col-span-1 rounded-2xl bg-card border border-border p-6 shadow-lg">
-                <div className="text-4xl font-bold text-primary">+5.000</div>
-                <p className="mt-2 text-sm text-muted-foreground">clientes satisfeitos</p>
-              </div>
-              <div className="col-span-2 rounded-2xl bg-primary p-6 shadow-lg text-primary-foreground">
-                <div className="text-4xl font-bold">R$ 70 milhões</div>
-                <p className="mt-2 text-sm text-primary-foreground/80">em créditos comercializados</p>
-              </div>
-              <div className="col-span-2 rounded-2xl bg-foreground p-6 shadow-lg text-background">
-                <div className="text-4xl font-bold">+98%</div>
-                <p className="mt-2 text-sm text-background/80">de aprovação</p>
-              </div>
+            <div className="mb-4 lg:hidden">
+              <p className="text-sm font-semibold text-primary">Simulador</p>
+              <h2 className="text-2xl font-bold tracking-tight text-foreground">
+                Calcule sua parcela agora
+              </h2>
             </div>
+            <Calculator embedded />
           </motion.div>
         </div>
       </motion.div>
