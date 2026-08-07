@@ -8,7 +8,7 @@ const steps = [
     icon: Target,
     step: "01",
     title: "Defina seu objetivo",
-    description: "Escolha o tipo de consórcio que melhor atende aos seus sonhos: imóveis, veículos, motos ou serviços. Nossa equipe ajuda você a selecionar o grupo ideal.",
+    description: "Escolha o tipo de consórcio que melhor atende aos seus sonhos: imóveis, veículos e motos. Nossa equipe ajuda você a selecionar o grupo ideal.",
   },
   {
     icon: CreditCard,

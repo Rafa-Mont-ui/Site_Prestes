@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Car, Bike, Wrench, ArrowRight } from "lucide-react"
+import { Home, Car, Bike, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -18,7 +18,7 @@ const products = [
     icon: Car,
     name: "Consórcio de Veículos",
     description: "Realize o sonho do carro novo ou seminovo. Você também pode usar para caminhões, ônibus e utilitários.",
-    creditRange: "R$ 30 mil a R$ 300 mil",
+    creditRange: "R$ 30 mil a R$ 800 mil",
     terms: "60 a 100 meses",
     highlight: false,
   },
@@ -28,14 +28,6 @@ const products = [
     description: "Acelere seus planos com uma moto do jeito que você sempre quis. Parcelas que cabem no bolso.",
     creditRange: "R$ 10 mil a R$ 80 mil",
     terms: "48 a 80 meses",
-    highlight: false,
-  },
-  {
-    icon: Wrench,
-    name: "Consórcio de Serviços",
-    description: "Viagens, casamentos, formaturas, procedimentos estéticos, cursos e muito mais. Planeje e conquiste!",
-    creditRange: "R$ 20 mil a R$ 150 mil",
-    terms: "48 a 100 meses",
     highlight: false,
   },
 ]
@@ -56,26 +48,26 @@ export function Products() {
             O que você pode conquistar
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            Com a carta de crédito, escolha o produto ou serviço que faz mais sentido para o seu momento de vida.
+            Com a carta de crédito, escolha o bem que faz mais sentido para o seu momento de vida.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {products.map((product, index) => {
             const Icon = product.icon
             return (
               <motion.div
                 key={index}
-                className={`relative rounded-2xl p-6 lg:p-8 transition-all duration-300 ${
+                className={`relative flex h-full flex-col rounded-2xl p-6 lg:p-8 transition-[box-shadow,border-color] duration-300 ${
                   product.highlight
-                    ? "bg-primary text-primary-foreground shadow-xl scale-[1.02]"
-                    : "bg-card border border-border hover:border-primary/50 hover:shadow-lg"
+                    ? "bg-primary text-primary-foreground shadow-xl shadow-primary/25"
+                    : "bg-card text-foreground border border-border hover:border-primary/50 hover:shadow-lg"
                 }`}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ delay: index * 0.1, duration: 0.45 }}
-                whileHover={{ y: -4 }}
+                whileHover={{ y: -6 }}
               >
                 {product.highlight && (
                   <span className="absolute -top-3 right-6 bg-foreground text-background text-xs font-semibold px-3 py-1 rounded-full">
@@ -83,53 +75,51 @@ export function Products() {
                   </span>
                 )}
 
-                <div className="flex items-start gap-4">
-                  <div className={`flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center ${
-                    product.highlight ? "bg-primary-foreground/20" : "bg-primary/10"
-                  }`}>
-                    <Icon className={`h-7 w-7 ${product.highlight ? "text-primary-foreground" : "text-primary"}`} />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className={`text-xl font-semibold mb-2 ${product.highlight ? "" : "text-foreground"}`}>
-                      {product.name}
-                    </h3>
-                    <p className={`text-sm leading-relaxed mb-4 ${
-                      product.highlight ? "text-primary-foreground/80" : "text-muted-foreground"
-                    }`}>
-                      {product.description}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-4 mb-4">
-                      <div>
-                        <span className={`block text-xs ${product.highlight ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
-                          Crédito
-                        </span>
-                        <span className={`text-sm font-medium ${product.highlight ? "" : "text-foreground"}`}>
-                          {product.creditRange}
-                        </span>
-                      </div>
-                      <div>
-                        <span className={`block text-xs ${product.highlight ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
-                          Prazo
-                        </span>
-                        <span className={`text-sm font-medium ${product.highlight ? "" : "text-foreground"}`}>
-                          {product.terms}
-                        </span>
-                      </div>
-                    </div>
+                <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl ${
+                  product.highlight ? "bg-primary-foreground/20" : "bg-primary/10"
+                }`}>
+                  <Icon className={`h-7 w-7 ${product.highlight ? "text-primary-foreground" : "text-primary"}`} />
+                </div>
 
-                    <Button
-                      variant={product.highlight ? "secondary" : "default"}
-                      size="sm"
-                      asChild
-                    >
-                      <Link href="#simulador">
-                        Simular agora
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
+                <h3 className="mt-5 text-xl font-semibold">{product.name}</h3>
+
+                <p className={`mt-2 mb-6 text-sm leading-relaxed ${
+                  product.highlight ? "text-primary-foreground/80" : "text-muted-foreground"
+                }`}>
+                  {product.description}
+                </p>
+
+                <div className={`mt-auto grid grid-cols-2 gap-4 border-t pt-5 ${
+                  product.highlight ? "border-primary-foreground/20" : "border-border"
+                }`}>
+                  <div>
+                    <span className={`block text-xs ${product.highlight ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
+                      Crédito
+                    </span>
+                    <span className="mt-0.5 block text-sm font-medium">
+                      {product.creditRange}
+                    </span>
+                  </div>
+                  <div>
+                    <span className={`block text-xs ${product.highlight ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
+                      Prazo
+                    </span>
+                    <span className="mt-0.5 block text-sm font-medium">
+                      {product.terms}
+                    </span>
                   </div>
                 </div>
+
+                <Button
+                  variant={product.highlight ? "secondary" : "default"}
+                  className="mt-6 w-full"
+                  asChild
+                >
+                  <Link href="#simulador">
+                    Simular agora
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
               </motion.div>
             )
           })}

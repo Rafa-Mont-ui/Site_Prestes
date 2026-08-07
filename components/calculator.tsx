@@ -23,7 +23,7 @@ const productTypes: ProductType[] = [
     id: "moveis",
     name: "Bens Móveis",
     icon: Car,
-    items: ["Carros", "Motos", "Caminhões", "Vans", "Barcos", "Linha Amarela"],
+    items: ["Carros", "Motos", "Caminhões", "Barcos", "Linha Amarela"],
     minCredit: 10000,
     maxCredit: 800000,
     fundRate: 0,
@@ -126,7 +126,11 @@ function creditFromParcel(type: ProductType, parcel: number, months: number) {
 
 type SimulationType = "credito" | "parcela"
 
-export function Calculator() {
+type CalculatorProps = {
+  embedded?: boolean
+}
+
+export function Calculator({ embedded = false }: CalculatorProps) {
   const [activeType, setActiveType] = useState(productTypes[0])
   const [activeItem, setActiveItem] = useState(productTypes[0].items[0])
   const [simulationType, setSimulationType] = useState<SimulationType>("credito")
@@ -225,6 +229,14 @@ export function Calculator() {
       maximumFractionDigits: 2,
     }).format(value)
 
+  // Extremos do slider sem centavos, para não estourar a largura em telas estreitas
+  const formatCurrencyShort = (value: number) =>
+    new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      maximumFractionDigits: 0,
+    }).format(value)
+
   const sliderProgress = ((sliderValue - sliderMin) / (sliderMax - sliderMin)) * 100
 
   const handleSliderChange = (value: number) => {
@@ -235,20 +247,8 @@ export function Calculator() {
     }
   }
 
-  return (
-    <section id="simulador" className="py-16 lg:py-24 bg-secondary/50">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance">
-            Simule seu consórcio agora
-          </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            Escolha o tipo de bem, defina o valor do crédito ou da parcela e descubra a simulação ideal para realizar seus sonhos.
-          </p>
-        </div>
-
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-card rounded-3xl shadow-xl border border-border overflow-hidden">
+  const calculatorCard = (
+          <div className="@container bg-card rounded-3xl shadow-xl border border-border overflow-hidden">
             {/* Tipos de bem */}
             <div className="grid grid-cols-2 border-b border-border">
               {productTypes.map((type) => {
@@ -258,7 +258,8 @@ export function Calculator() {
                     key={type.id}
                     onClick={() => handleTypeChange(type)}
                     className={cn(
-                      "flex flex-col items-center gap-2 py-5 px-4 transition-all",
+                      "flex flex-col items-center gap-2 px-4 transition-all",
+                      embedded ? "py-4" : "py-5",
                       activeType.id === type.id
                         ? "bg-primary text-primary-foreground"
                         : "bg-card text-muted-foreground hover:bg-secondary"
@@ -271,9 +272,9 @@ export function Calculator() {
               })}
             </div>
 
-            <div className="p-6 lg:p-8">
+            <div className={cn(embedded ? "p-5 @lg:p-6" : "p-6 lg:p-8")}>
               {/* Itens do tipo selecionado */}
-              <div className="mb-8">
+              <div className={cn(embedded ? "mb-5" : "mb-8")}>
                 <label className="block text-sm font-medium text-muted-foreground mb-3">
                   O que você quer adquirir?
                 </label>
@@ -283,7 +284,8 @@ export function Calculator() {
                       key={item}
                       onClick={() => setActiveItem(item)}
                       className={cn(
-                        "px-4 py-2 rounded-full text-sm font-medium transition-all",
+                        "rounded-full text-sm font-medium transition-all",
+                        embedded ? "px-3.5 py-1.5" : "px-4 py-2",
                         activeItem === item
                           ? "bg-primary text-primary-foreground shadow-md"
                           : "bg-secondary text-muted-foreground hover:bg-primary/10 hover:text-primary"
@@ -296,16 +298,16 @@ export function Calculator() {
               </div>
 
               {/* Valor desejado com alternância crédito/parcela */}
-              <div className="mb-8">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+              <div className={cn(embedded ? "mb-5" : "mb-8")}>
+                <div className="flex flex-col gap-3 mb-4 @md:flex-row @md:items-center @md:justify-between">
                   <label className="text-sm font-medium text-muted-foreground">
                     Valor desejado
                   </label>
-                  <div className="inline-flex rounded-full bg-secondary p-1 self-center sm:self-auto">
+                  <div className="grid grid-cols-2 gap-1 rounded-full bg-secondary p-1 @md:inline-flex @md:gap-0">
                     <button
                       onClick={() => handleSimulationTypeChange("credito")}
                       className={cn(
-                        "rounded-full px-5 py-2 text-sm font-medium transition-all",
+                        "rounded-full px-4 py-2 text-sm font-medium transition-all @md:px-5",
                         simulationType === "credito"
                           ? "bg-primary text-primary-foreground shadow-sm"
                           : "text-muted-foreground hover:text-foreground"
@@ -316,7 +318,7 @@ export function Calculator() {
                     <button
                       onClick={() => handleSimulationTypeChange("parcela")}
                       className={cn(
-                        "rounded-full px-5 py-2 text-sm font-medium transition-all",
+                        "rounded-full px-4 py-2 text-sm font-medium transition-all @md:px-5",
                         simulationType === "parcela"
                           ? "bg-primary text-primary-foreground shadow-sm"
                           : "text-muted-foreground hover:text-foreground"
@@ -330,8 +332,13 @@ export function Calculator() {
                 <p className="text-center text-sm text-muted-foreground mb-2">
                   {simulationType === "credito" ? "Valor do crédito" : "Valor da parcela"}
                 </p>
-                <div className="text-center mb-6">
-                  <span className="text-4xl lg:text-5xl font-bold text-primary">
+                <div className={cn("text-center", embedded ? "mb-4" : "mb-6")}>
+                  <span
+                    className={cn(
+                      "font-bold text-primary tabular-nums",
+                      embedded ? "text-3xl" : "text-4xl lg:text-5xl"
+                    )}
+                  >
                     {formatCurrency(sliderValue)}
                   </span>
                 </div>
@@ -347,15 +354,15 @@ export function Calculator() {
                     className="w-full h-2 rounded-full appearance-none cursor-pointer"
                     style={{ "--slider-progress": `${sliderProgress}%` } as React.CSSProperties}
                   />
-                  <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-                    <span>{formatCurrency(sliderMin)}</span>
-                    <span>{formatCurrency(sliderMax)}</span>
+                  <div className="flex justify-between mt-2 text-xs text-muted-foreground tabular-nums">
+                    <span>{formatCurrencyShort(sliderMin)}</span>
+                    <span>{formatCurrencyShort(sliderMax)}</span>
                   </div>
                 </div>
               </div>
 
               {/* Prazos */}
-              <div className="mb-8">
+              <div className={cn(embedded ? "mb-5" : "mb-8")}>
                 <label className="block text-sm font-medium text-muted-foreground mb-3">
                   Prazo em meses
                 </label>
@@ -365,7 +372,8 @@ export function Calculator() {
                       key={plan.months}
                       onClick={() => setSelectedMonths(plan.months)}
                       className={cn(
-                        "px-5 py-2.5 rounded-full text-sm font-medium transition-all",
+                        "rounded-full text-sm font-medium transition-all",
+                        embedded ? "px-4 py-2" : "px-5 py-2.5",
                         selectedMonths === plan.months
                           ? "bg-primary text-primary-foreground shadow-md"
                           : "bg-secondary text-muted-foreground hover:bg-primary/10 hover:text-primary"
@@ -378,29 +386,34 @@ export function Calculator() {
               </div>
 
               {/* Resultados */}
-              <div className="bg-secondary/70 rounded-2xl p-6 mb-6">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-                  <div>
+              <div className={cn("bg-secondary/70 rounded-2xl mb-6", embedded ? "p-4" : "p-6")}>
+                <div className="grid grid-cols-2 gap-4 text-center @xl:grid-cols-3 @xl:gap-6">
+                  <div className="col-span-2 border-b border-border/60 pb-4 @xl:col-span-1 @xl:border-b-0 @xl:pb-0">
                     <p className="text-sm text-muted-foreground mb-1">
                       {simulationType === "credito" ? "Parcela mensal" : "Crédito estimado"}
                     </p>
-                    <p className="text-2xl lg:text-3xl font-bold text-primary">
+                    <p
+                      className={cn(
+                        "font-bold text-primary tabular-nums",
+                        embedded ? "text-2xl @sm:text-3xl" : "text-2xl lg:text-3xl"
+                      )}
+                    >
                       {formatCurrency(
                         simulationType === "credito" ? computedParcel : computedCredit
                       )}
                     </p>
                   </div>
-                  <div>
+                  <div className="flex flex-col justify-end">
                     <p className="text-sm text-muted-foreground mb-1">Taxa de administração</p>
-                    <p className="text-xl font-semibold text-foreground">
+                    <p className="text-lg font-semibold text-foreground tabular-nums @sm:text-xl">
                       {(adminRate * 100).toFixed(1).replace(".", ",")}%
                     </p>
                   </div>
-                  <div>
+                  <div className="flex flex-col justify-end">
                     <p className="text-sm text-muted-foreground mb-1">
                       {simulationType === "credito" ? "Crédito" : "Parcela mensal"}
                     </p>
-                    <p className="text-xl font-semibold text-foreground">
+                    <p className="text-lg font-semibold text-foreground tabular-nums @sm:text-xl">
                       {formatCurrency(
                         simulationType === "credito" ? computedCredit : computedParcel
                       )}
@@ -410,19 +423,30 @@ export function Calculator() {
               </div>
 
               {/* CTA */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="text-base" asChild>
+              <div
+                className={cn(
+                  "flex justify-center",
+                  embedded ? "flex-col gap-3" : "flex-col gap-4 sm:flex-row"
+                )}
+              >
+                <Button
+                  size={embedded ? "default" : "lg"}
+                  className={cn("text-base", embedded ? "w-full" : "w-full sm:w-auto")}
+                  asChild
+                >
                   <a href="https://wa.me/5541999999999" target="_blank" rel="noopener noreferrer">
                     Quero esse consórcio
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </a>
                 </Button>
-                <Button variant="outline" size="lg" className="text-base">
-                  Falar com especialista
-                </Button>
+                {!embedded && (
+                  <Button variant="outline" size="lg" className="text-base">
+                    Falar com especialista
+                  </Button>
+                )}
               </div>
 
-              <p className="text-xs text-muted-foreground text-center mt-6">
+              <p className={cn("text-xs text-muted-foreground text-center", embedded ? "mt-4" : "mt-6")}>
                 *Valores simulados. A parcela pode variar de acordo com o grupo e condições vigentes.
                 {activeType.fundRate > 0 &&
                   ` Inclui fundo de reserva de ${(activeType.fundRate * 100)
@@ -432,7 +456,29 @@ export function Calculator() {
               </p>
             </div>
           </div>
+  )
+
+  if (embedded) {
+    return (
+      <div id="simulador" className="w-full">
+        {calculatorCard}
+      </div>
+    )
+  }
+
+  return (
+    <section id="simulador" className="py-16 lg:py-24 bg-secondary/50">
+      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance">
+            Simule seu consórcio agora
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+            Escolha o tipo de bem, defina o valor do crédito ou da parcela e descubra a simulação ideal para realizar seus sonhos.
+          </p>
         </div>
+
+        <div className="max-w-4xl mx-auto">{calculatorCard}</div>
       </div>
     </section>
   )

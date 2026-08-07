@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     question: "O que acontece se eu cancelar o consórcio?",
-    answer: "Em caso de desistência, você será incluído na restituição após a contemplação da sua cota ou ao término do grupo. Os valores pagos serão devolvidos conforme as regras do contrato, descontadas as taxas administrativas previstas.",
+    answer: "Em caso de desistência, você será incluído nos sorteios de cancelados. Após a contemplação da sua cota ou o término do grupo, os valores devidos serão devolvidos de acordo com as regras estabelecidas em contrato.",
   },
   {
     question: "Quanto tempo demora para ser contemplado?",
