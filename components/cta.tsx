@@ -65,7 +65,7 @@ export function CTA() {
                 className="text-base bg-[#25D366] text-white hover:bg-[#128C7E] border-0"
                 asChild
               >
-                <a href="https://wa.me/5541999999999" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/5541987767168" target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="mr-2 h-5 w-5" />
                   WhatsApp
                 </a>
