@@ -17,7 +17,7 @@ export function Hero() {
     <section id="inicio" className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-gray/40 rounded-bl-[100px] lg:rounded-bl-[200px]" />
+        <div className="absolute top-0 right-0 hidden w-1/2 h-full bg-brand-gray/40 rounded-bl-[100px] lg:block lg:rounded-bl-[200px]" />
       </div>
 
       <motion.div
