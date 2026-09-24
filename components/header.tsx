@@ -60,7 +60,7 @@ export function Header() {
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
           <Button variant="outline" size="sm" asChild>
-            <a href="https://wa.me/5541999999999" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/5541987767168" target="_blank" rel="noopener noreferrer">
               <Phone className="mr-2 h-4 w-4" />
               Fale Conosco
             </a>
@@ -113,7 +113,7 @@ export function Header() {
               </div>
               <div className="py-6 space-y-3">
                 <Button variant="outline" className="w-full" asChild>
-                  <a href="https://wa.me/5541999999999" target="_blank" rel="noopener noreferrer">
+                  <a href="https://wa.me/5541987767168" target="_blank" rel="noopener noreferrer">
                     <Phone className="mr-2 h-4 w-4" />
                     Fale Conosco
                   </a>

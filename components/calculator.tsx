@@ -434,7 +434,7 @@ export function Calculator({ embedded = false }: CalculatorProps) {
                   className={cn("text-base", embedded ? "w-full" : "w-full sm:w-auto")}
                   asChild
                 >
-                  <a href="https://wa.me/5541999999999" target="_blank" rel="noopener noreferrer">
+                  <a href="https://wa.me/5541987767168" target="_blank" rel="noopener noreferrer">
                     Quero esse consórcio
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </a>

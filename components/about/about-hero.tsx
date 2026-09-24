@@ -77,7 +77,7 @@ export function AboutHero() {
                 </Link>
               </Button>
               <Button variant="outline" size="lg" asChild>
-                <a href="https://wa.me/5541999999999" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/5541987767168" target="_blank" rel="noopener noreferrer">
                   Falar com a equipe
                 </a>
               </Button>
