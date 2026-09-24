@@ -58,15 +58,15 @@ export function AboutValues() {
             return (
               <motion.div
                 key={value.title}
-                className="group bg-card rounded-2xl border border-border p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300"
+                className="group bg-card rounded-2xl border border-border p-6 hover:border-brand/50 hover:shadow-lg transition-all duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ delay: index * 0.08, duration: 0.4 }}
                 whileHover={{ y: -4 }}
               >
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary transition-colors">
-                  <Icon className="h-6 w-6 text-primary group-hover:text-primary-foreground transition-colors" />
+                <div className="w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center mb-4 group-hover:bg-brand transition-colors">
+                  <Icon className="h-6 w-6 text-brand group-hover:text-brand-foreground transition-colors" />
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">{value.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">

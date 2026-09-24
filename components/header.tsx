@@ -23,13 +23,14 @@ export function Header() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Prestes Consórcios</span>
+            <span className="sr-only">Prestes Consultoria e Negócios</span>
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-04-28%20at%2012.55.38-a2FO0mTv2HycQZgNkFXa8xU1cYYKlA.jpeg"
-              alt="Prestes Consórcios"
-              width={60}
-              height={60}
-              className="h-12 w-auto"
+              src="/brand/logo-prestes-horizontal.svg"
+              alt="Prestes Consultoria e Negócios"
+              width={1702}
+              height={510}
+              priority
+              className="h-10 w-auto lg:h-11"
             />
           </Link>
         </div>
@@ -50,7 +51,7 @@ export function Header() {
             <Link
               key={item.name}
               href={item.href}
-              className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+              className="text-sm font-medium text-foreground/80 hover:text-brand transition-colors"
             >
               {item.name}
             </Link>
@@ -78,13 +79,13 @@ export function Header() {
         <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-border">
           <div className="flex items-center justify-between">
             <Link href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">Prestes Consórcios</span>
+              <span className="sr-only">Prestes Consultoria e Negócios</span>
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-04-28%20at%2012.55.38-a2FO0mTv2HycQZgNkFXa8xU1cYYKlA.jpeg"
-                alt="Prestes Consórcios"
-                width={50}
-                height={50}
-                className="h-10 w-auto"
+                src="/brand/logo-prestes-horizontal.svg"
+                alt="Prestes Consultoria e Negócios"
+                width={1702}
+                height={510}
+                className="h-9 w-auto"
               />
             </Link>
             <button

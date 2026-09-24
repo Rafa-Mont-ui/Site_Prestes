@@ -17,16 +17,9 @@ export function CTA() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.55 }}
         >
-          {/* Background pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-            </svg>
+          {/* Ícone da marca ao fundo, como na apresentação da identidade visual */}
+          <div aria-hidden="true" className="pointer-events-none absolute -right-16 -bottom-24 w-[360px] opacity-[0.07] sm:w-[440px] lg:-right-10 lg:w-[520px]">
+            <Image src="/brand/icone-prestes-branco.svg" alt="" width={426} height={510} className="h-auto w-full" />
           </div>
 
           <div className="relative flex flex-col lg:flex-row items-center justify-between gap-10">
@@ -37,13 +30,13 @@ export function CTA() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ delay: 0.1, duration: 0.45 }}
             >
-              <div className="mb-6 inline-flex rounded-2xl bg-white p-3 shadow-sm mx-auto lg:mx-0">
+              <div className="mb-6 flex justify-center lg:justify-start">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-04-28%20at%2012.55.38-a2FO0mTv2HycQZgNkFXa8xU1cYYKlA.jpeg"
-                  alt="Prestes Consórcios"
-                  width={70}
-                  height={70}
-                  className="h-auto w-auto"
+                  src="/brand/icone-prestes-branco.svg"
+                  alt="Prestes Consultoria e Negócios"
+                  width={426}
+                  height={510}
+                  className="h-14 w-auto"
                 />
               </div>
               <h2 className="text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl text-balance">

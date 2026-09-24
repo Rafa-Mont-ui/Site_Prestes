@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Instagram, Facebook, Linkedin, Mail, Phone, MapPin } from "lucide-react"
 
-const LOGO_SRC = "/logo-prestes.jpg"
+const LOGO_SRC = "/brand/logo-prestes-branco.svg"
 
 const navigation = {
   produtos: [
@@ -14,7 +14,7 @@ const navigation = {
     { name: "Sobre Nós", href: "/sobre" },
     { name: "Como Funciona", href: "/#como-funciona" },
     { name: "Vantagens", href: "/#vantagens" },
-    { name: "Contato", href: "https://wa.me/5541999999999" },
+    { name: "Contato", href: "https://wa.me/5541987767168" },
   ],
   suporte: [
     { name: "Perguntas Frequentes", href: "/#duvidas" },
@@ -38,10 +38,10 @@ export function Footer() {
           <div className="space-y-6">
             <Image
               src={LOGO_SRC}
-              alt="Prestes Consórcios"
-              width={120}
-              height={120}
-              className="h-20 w-auto"
+              alt="Prestes Consultoria e Negócios"
+              width={827}
+              height={868}
+              className="h-28 w-auto"
             />
             <p className="text-sm text-footer-foreground/70 leading-relaxed max-w-xs">
               Realizando sonhos há mais de 10 anos. Consórcios de imóveis, veículos e motos com as melhores condições do mercado.
@@ -49,15 +49,15 @@ export function Footer() {
             
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-sm text-footer-foreground/70">
-                <Phone className="h-4 w-4 text-primary" />
-                <span>(41) 99999-9999</span>
+                <Phone className="h-4 w-4 text-brand" />
+                <span>(41) 98776-7168</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-footer-foreground/70">
-                <Mail className="h-4 w-4 text-primary" />
+                <Mail className="h-4 w-4 text-brand" />
                 <span>prestes_consorcios@hotmail.com</span>
               </div>
               <div className="flex items-start gap-3 text-sm text-footer-foreground/70">
-                <MapPin className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                <MapPin className="h-4 w-4 text-brand mt-0.5 shrink-0" />
                 <span>Tv. Benjamin Lins de Assis, 147 - Afonso Pena, São José dos Pinhais - PR</span>
               </div>
             </div>
@@ -71,7 +71,7 @@ export function Footer() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-footer-foreground/10 flex items-center justify-center hover:bg-primary transition-colors"
+                    className="w-10 h-10 rounded-full bg-footer-foreground/10 flex items-center justify-center hover:bg-brand transition-colors"
                   >
                     <span className="sr-only">{item.name}</span>
                     <Icon className="h-5 w-5" />
@@ -89,7 +89,7 @@ export function Footer() {
                 <ul role="list" className="mt-4 space-y-3">
                   {navigation.produtos.map((item) => (
                     <li key={item.name}>
-                      <Link href={item.href} className="text-sm text-footer-foreground/70 hover:text-primary transition-colors">
+                      <Link href={item.href} className="text-sm text-footer-foreground/70 hover:text-brand transition-colors">
                         {item.name}
                       </Link>
                     </li>
@@ -106,12 +106,12 @@ export function Footer() {
                           href={item.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm text-footer-foreground/70 hover:text-primary transition-colors"
+                          className="text-sm text-footer-foreground/70 hover:text-brand transition-colors"
                         >
                           {item.name}
                         </a>
                       ) : (
-                        <Link href={item.href} className="text-sm text-footer-foreground/70 hover:text-primary transition-colors">
+                        <Link href={item.href} className="text-sm text-footer-foreground/70 hover:text-brand transition-colors">
                           {item.name}
                         </Link>
                       )}
@@ -125,7 +125,7 @@ export function Footer() {
               <ul role="list" className="mt-4 space-y-3">
                 {navigation.suporte.map((item) => (
                   <li key={item.name}>
-                    <Link href={item.href} className="text-sm text-footer-foreground/70 hover:text-primary transition-colors">
+                    <Link href={item.href} className="text-sm text-footer-foreground/70 hover:text-brand transition-colors">
                       {item.name}
                     </Link>
                   </li>
@@ -139,7 +139,7 @@ export function Footer() {
         <div className="mt-12 border-t border-footer-foreground/10 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-xs text-footer-foreground/50">
-              © {new Date().getFullYear()} Prestes Consórcios. Todos os direitos reservados.
+              © {new Date().getFullYear()} Prestes Consultoria e Negócios. Todos os direitos reservados.
             </p>
             <p className="text-xs text-footer-foreground/50 text-center">
               Regulamentado pelo Banco Central do Brasil. Administrado por parceiros autorizados.

@@ -61,7 +61,7 @@ export function Products() {
                 className={`relative flex h-full flex-col rounded-2xl p-6 lg:p-8 transition-[box-shadow,border-color] duration-300 ${
                   product.highlight
                     ? "bg-primary text-primary-foreground shadow-xl shadow-primary/25"
-                    : "bg-card text-foreground border border-border hover:border-primary/50 hover:shadow-lg"
+                    : "bg-card text-foreground border border-border hover:border-brand/50 hover:shadow-lg"
                 }`}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -70,15 +70,15 @@ export function Products() {
                 whileHover={{ y: -6 }}
               >
                 {product.highlight && (
-                  <span className="absolute -top-3 right-6 bg-foreground text-background text-xs font-semibold px-3 py-1 rounded-full">
+                  <span className="absolute -top-3 right-6 bg-brand text-brand-foreground text-xs font-semibold px-3 py-1 rounded-full">
                     Mais procurado
                   </span>
                 )}
 
                 <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl ${
-                  product.highlight ? "bg-primary-foreground/20" : "bg-primary/10"
+                  product.highlight ? "bg-brand" : "bg-brand/10"
                 }`}>
-                  <Icon className={`h-7 w-7 ${product.highlight ? "text-primary-foreground" : "text-primary"}`} />
+                  <Icon className={`h-7 w-7 ${product.highlight ? "text-primary-foreground" : "text-brand"}`} />
                 </div>
 
                 <h3 className="mt-5 text-xl font-semibold">{product.name}</h3>
