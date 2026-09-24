@@ -1,18 +1,29 @@
 import type { Metadata, Viewport } from 'next'
 import Image from 'next/image'
-import { Poppins } from 'next/font/google'
+import { Inter, Open_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const poppins = Poppins({
+// Tipografia da marca: Open Sans (textos) e Inter (títulos)
+const openSans = Open_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
-  variable: "--font-poppins",
-});
+  variable: "--font-open-sans",
+})
 
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-inter",
+})
+
+export const metadata: Metadata = {
+  title: 'Prestes Consultoria e Negócios',
+  description: 'Consórcios de imóveis, veículos e motos com atendimento personalizado da Prestes Consultoria e Negócios.',
+}
 
 export const viewport: Viewport = {
-  themeColor: '#2245ff',
+  themeColor: '#061F3F',
   width: 'device-width',
   initialScale: 1,
 }
@@ -24,19 +35,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="bg-background scroll-smooth">
-      <body className={`${poppins.variable} font-sans antialiased`}>
-        {/* Marca d'água do site: fixa atrás de todo o conteúdo.
-            PNG de traço escuro com fundo transparente, para o fundo claro do site. */}
+      <body className={`${openSans.variable} ${inter.variable} font-sans antialiased`}>
+        {/* Marca d'água do site: logo completo da marca, fixo atrás de todo o conteúdo. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none fixed inset-0 -z-10 flex select-none items-center justify-center overflow-hidden opacity-[0.06]"
+          className="pointer-events-none fixed inset-0 -z-10 flex select-none items-center justify-center overflow-hidden opacity-[0.05]"
         >
           <Image
-            src="/logo-prestes-marca-dagua-escura.png"
+            src="/brand/logo-prestes.svg"
             alt=""
-            width={1024}
-            height={1025}
-            className="h-auto w-[85vw] max-w-2xl"
+            width={827}
+            height={868}
+            className="h-auto w-[80vw] max-w-xl"
           />
         </div>
 

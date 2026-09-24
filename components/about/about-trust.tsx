@@ -32,7 +32,7 @@ const trustPoints = [
 
 export function AboutTrust() {
   return (
-    <section className="py-16 lg:py-24 bg-foreground text-background">
+    <section className="py-16 lg:py-24 bg-navy text-white">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <motion.div
           className="text-center mb-12"
@@ -41,13 +41,13 @@ export function AboutTrust() {
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.5 }}
         >
-          <span className="inline-block text-sm font-semibold text-primary mb-2">
+          <span className="inline-block text-sm font-semibold text-brand mb-2">
             Por que confiar
           </span>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-balance">
             Segurança que se sente no atendimento
           </h2>
-          <p className="mt-4 text-lg text-background/70 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-white/70 max-w-2xl mx-auto">
             Confiança não é só promessa: é consistência, clareza e presença em cada decisão.
           </p>
         </motion.div>
@@ -58,18 +58,18 @@ export function AboutTrust() {
             return (
               <motion.div
                 key={point.title}
-                className="flex gap-4 rounded-2xl bg-background/5 border border-background/10 p-6"
+                className="flex gap-4 rounded-2xl bg-white/5 border border-white/10 p-6"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ delay: index * 0.08, duration: 0.4 }}
               >
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center">
-                  <Icon className="h-6 w-6 text-primary" />
+                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-brand/15 flex items-center justify-center">
+                  <Icon className="h-6 w-6 text-brand" />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold mb-2">{point.title}</h3>
-                  <p className="text-sm text-background/70 leading-relaxed">
+                  <p className="text-sm text-white/70 leading-relaxed">
                     {point.description}
                   </p>
                 </div>

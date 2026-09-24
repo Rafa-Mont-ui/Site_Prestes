@@ -17,7 +17,7 @@ export function Hero() {
     <section id="inicio" className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 rounded-bl-[100px] lg:rounded-bl-[200px]" />
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-gray/40 rounded-bl-[100px] lg:rounded-bl-[200px]" />
       </div>
 
       <motion.div
@@ -37,19 +37,19 @@ export function Hero() {
             transition={{ delay: 0.1, duration: 0.5 }}
           >
             <motion.div
-              className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-6"
+              className="inline-flex items-center gap-2 rounded-full bg-brand/10 px-4 py-1.5 text-sm font-semibold text-navy mb-6"
               whileHover={{ scale: 1.03 }}
             >
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand"></span>
               </span>
               Conquiste seus sonhos
             </motion.div>
 
             <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl text-balance">
               Realize seus{" "}
-              <span className="text-primary">projetos de vida</span>{" "}
+              <span className="text-brand">projetos de vida</span>{" "}
               sem pagar juros
             </h1>
 
@@ -64,7 +64,7 @@ export function Hero() {
                   className="flex items-center gap-2 text-sm font-medium text-foreground"
                   whileHover={{ y: -2 }}
                 >
-                  <CheckCircle className="h-5 w-5 text-primary" />
+                  <CheckCircle className="h-5 w-5 text-brand" />
                   {benefit}
                 </motion.div>
               ))}

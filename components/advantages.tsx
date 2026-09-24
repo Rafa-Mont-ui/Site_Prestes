@@ -62,7 +62,7 @@ export function Advantages() {
             return (
               <motion.div
                 key={index}
-                className="group relative bg-card rounded-2xl border border-border p-6 hover:border-primary/50 hover:shadow-lg transition-all duration-300"
+                className="group relative bg-card rounded-2xl border border-border p-6 hover:border-brand/50 hover:shadow-lg transition-all duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
@@ -70,8 +70,8 @@ export function Advantages() {
                 whileHover={{ y: -4 }}
               >
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    <Icon className="h-6 w-6 text-primary group-hover:text-primary-foreground transition-colors" />
+                  <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center group-hover:bg-brand group-hover:text-brand-foreground transition-colors">
+                    <Icon className="h-6 w-6 text-brand group-hover:text-brand-foreground transition-colors" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-foreground mb-2">

@@ -32,7 +32,7 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="como-funciona" className="py-16 lg:py-24 bg-foreground text-background">
+    <section id="como-funciona" className="py-16 lg:py-24 bg-navy text-white">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <motion.div
           className="text-center mb-16"
@@ -41,18 +41,18 @@ export function HowItWorks() {
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.5 }}
         >
-          <span className="inline-block text-sm font-semibold text-primary mb-2">Passo a passo</span>
+          <span className="inline-block text-sm font-semibold text-brand mb-2">Passo a passo</span>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-balance">
             Como funciona o consórcio
           </h2>
-          <p className="mt-4 text-lg text-background/70 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-white/70 max-w-2xl mx-auto">
             Entenda como é simples conquistar seus sonhos com o consórcio Prestes
           </p>
         </motion.div>
 
         <div className="relative">
           <div
-            className="hidden lg:block absolute top-12 left-[12.5%] right-[12.5%] h-[2px] bg-background/20 z-0 pointer-events-none"
+            className="hidden lg:block absolute top-12 left-[12.5%] right-[12.5%] h-[2px] bg-white/15 z-0 pointer-events-none"
             aria-hidden
           />
 
@@ -71,10 +71,10 @@ export function HowItWorks() {
                 <div className="text-center">
                   <div className="relative flex justify-center items-center h-24 mb-6">
                     <div className="relative z-10 inline-flex">
-                      <div className="w-24 h-24 rounded-full bg-foreground ring-1 ring-background/20 flex items-center justify-center">
-                        <Icon className="h-10 w-10 text-primary" />
+                      <div className="w-24 h-24 rounded-full bg-white/5 ring-1 ring-white/15 flex items-center justify-center">
+                        <Icon className="h-10 w-10 text-brand" />
                       </div>
-                      <span className="absolute -top-2 -right-2 z-20 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">
+                      <span className="absolute -top-2 -right-2 z-20 w-8 h-8 rounded-full bg-brand text-brand-foreground flex items-center justify-center text-sm font-bold">
                         {step.step}
                       </span>
                     </div>
@@ -82,7 +82,7 @@ export function HowItWorks() {
                   <h3 className="text-xl font-semibold mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-background/70 leading-relaxed text-sm">
+                  <p className="text-white/70 leading-relaxed text-sm">
                     {step.description}
                   </p>
                 </div>
