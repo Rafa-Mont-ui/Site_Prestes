@@ -7,11 +7,14 @@ import { cn } from "@/lib/utils"
 
 type Plan = { months: number; adminRate: number }
 type CreditRange = { min: number; max: number; plans: Plan[] }
+// Limites próprios de cada item; o que não for informado usa o limite do tipo
+type Item = { name: string; minCredit?: number; maxCredit?: number; maxMonths?: number }
+type Limits = { minCredit: number; maxCredit: number; maxMonths: number }
 type ProductType = {
   id: string
   name: string
   icon: typeof Car
-  items: string[]
+  items: Item[]
   minCredit: number
   maxCredit: number
   fundRate: number
@@ -23,7 +26,13 @@ const productTypes: ProductType[] = [
     id: "moveis",
     name: "Bens Móveis",
     icon: Car,
-    items: ["Carros", "Motos", "Caminhões", "Barcos", "Linha Amarela"],
+    items: [
+      { name: "Carros", minCredit: 30000, maxCredit: 300000 },
+      { name: "Motos", minCredit: 10000, maxCredit: 80000, maxMonths: 80 },
+      { name: "Caminhões", minCredit: 100000, maxCredit: 800000 },
+      { name: "Barcos", minCredit: 50000, maxCredit: 500000 },
+      { name: "Linha Amarela", minCredit: 100000, maxCredit: 800000 },
+    ],
     minCredit: 10000,
     maxCredit: 800000,
     fundRate: 0,
@@ -63,7 +72,13 @@ const productTypes: ProductType[] = [
     id: "imoveis",
     name: "Bens Imóveis",
     icon: Home,
-    items: ["Novo ou Usado", "Residencial", "Comercial", "Rural", "Reforma e Construção"],
+    items: [
+      { name: "Novo ou Usado" },
+      { name: "Residencial" },
+      { name: "Comercial" },
+      { name: "Rural" },
+      { name: "Reforma e Construção" },
+    ],
     minCredit: 80000,
     maxCredit: 1500000,
     fundRate: 0.005,
@@ -90,39 +105,85 @@ function getRangeForCredit(type: ProductType, credit: number): CreditRange {
   )
 }
 
-function getParcelBounds(type: ProductType, months: number) {
+function getLimits(type: ProductType, item: Item): Limits {
+  return {
+    minCredit: item.minCredit ?? type.minCredit,
+    maxCredit: item.maxCredit ?? type.maxCredit,
+    maxMonths: item.maxMonths ?? Infinity,
+  }
+}
+
+function getPlans(range: CreditRange, limits: Limits): Plan[] {
+  return range.plans.filter((p) => p.months <= limits.maxMonths)
+}
+
+function getParcelBounds(type: ProductType, limits: Limits, months: number) {
   let minParcel = Infinity
   let maxParcel = 0
 
   for (const range of type.ranges) {
-    const plan = range.plans.find((p) => p.months === months) ?? range.plans[range.plans.length - 1]
+    // Considera só a parte da faixa que cabe nos limites do item
+    const min = Math.max(range.min, limits.minCredit)
+    const max = Math.min(range.max, limits.maxCredit)
+    if (min > max) continue
+
+    const plans = getPlans(range, limits)
+    const plan = plans.find((p) => p.months === months) ?? plans[plans.length - 1]
     const factor = (1 + plan.adminRate + type.fundRate) / plan.months
-    minParcel = Math.min(minParcel, range.min * factor)
-    maxParcel = Math.max(maxParcel, range.max * factor)
+    minParcel = Math.min(minParcel, min * factor)
+    maxParcel = Math.max(maxParcel, max * factor)
   }
 
   return { minParcel: Math.round(minParcel), maxParcel: Math.round(maxParcel) }
 }
 
-function parcelFromCredit(type: ProductType, credit: number, months: number) {
-  const range = getRangeForCredit(type, credit)
-  const plan = range.plans.find((p) => p.months === months) ?? range.plans[0]
+function parcelFromCredit(type: ProductType, limits: Limits, credit: number, months: number) {
+  const plans = getPlans(getRangeForCredit(type, credit), limits)
+  const plan = plans.find((p) => p.months === months) ?? plans[0]
   const total = credit * (1 + plan.adminRate + type.fundRate)
   return total / plan.months
 }
 
-function creditFromParcel(type: ProductType, parcel: number, months: number) {
-  let range = type.ranges[0]
-  let credit = type.minCredit
+// Testa cada faixa e fica com o crédito cuja parcela calculada mais se aproxima da informada.
+// Faixas que não têm o prazo escolhido levam 1 centavo de penalidade, para só vencerem
+// quando nenhuma faixa com esse prazo chega à parcela pedida.
+function creditFromParcel(type: ProductType, limits: Limits, parcel: number, months: number) {
+  let best = limits.minCredit
+  let bestScore = Infinity
 
-  for (let i = 0; i < 3; i++) {
-    const plan = range.plans.find((p) => p.months === months) ?? range.plans[0]
-    credit = (parcel * plan.months) / (1 + plan.adminRate + type.fundRate)
-    range = getRangeForCredit(type, credit)
+  for (const range of type.ranges) {
+    const min = Math.max(range.min, limits.minCredit)
+    const max = Math.min(range.max, limits.maxCredit)
+    if (min > max) continue
+
+    const plans = getPlans(range, limits)
+    const exactPlan = plans.find((p) => p.months === months)
+    const plan = exactPlan ?? plans[0]
+    const credit = (parcel * plan.months) / (1 + plan.adminRate + type.fundRate)
+    const clamped = Math.min(Math.max(credit, min), max)
+    const diff = Math.abs(parcelFromCredit(type, limits, clamped, months) - parcel)
+    const score = diff + (exactPlan ? 0 : 0.01)
+    if (score < bestScore) {
+      best = clamped
+      bestScore = score
+    }
   }
 
-  return credit
+  return best
 }
+
+// Valores iniciais ao trocar de tipo: crédito no meio da faixa e prazo intermediário
+function getInitialValues(type: ProductType, item: Item) {
+  const limits = getLimits(type, item)
+  const credit = Math.round((limits.minCredit + limits.maxCredit) / 2)
+  const plans = getPlans(getRangeForCredit(type, credit), limits)
+  const months = plans[Math.floor(plans.length / 2)].months
+  const bounds = getParcelBounds(type, limits, months)
+  const parcel = Math.round((bounds.minParcel + bounds.maxParcel) / 2)
+  return { credit, months, parcel }
+}
+
+const defaultValues = getInitialValues(productTypes[0], productTypes[0].items[0])
 
 type SimulationType = "credito" | "parcela"
 
@@ -134,45 +195,39 @@ export function Calculator({ embedded = false }: CalculatorProps) {
   const [activeType, setActiveType] = useState(productTypes[0])
   const [activeItem, setActiveItem] = useState(productTypes[0].items[0])
   const [simulationType, setSimulationType] = useState<SimulationType>("credito")
-  const [selectedMonths, setSelectedMonths] = useState(productTypes[0].ranges[0].plans[0].months)
-  const [creditValue, setCreditValue] = useState(
-    Math.round((productTypes[0].minCredit + productTypes[0].maxCredit) / 2)
-  )
-  const initialBounds = getParcelBounds(productTypes[0], productTypes[0].ranges[0].plans[0].months)
-  const [parcelValue, setParcelValue] = useState(
-    Math.round((initialBounds.minParcel + initialBounds.maxParcel) / 2)
-  )
+  const [selectedMonths, setSelectedMonths] = useState(defaultValues.months)
+  const [creditValue, setCreditValue] = useState(defaultValues.credit)
+  const [parcelValue, setParcelValue] = useState(defaultValues.parcel)
 
-  const currentRange = useMemo(
-    () =>
-      simulationType === "credito"
-        ? getRangeForCredit(activeType, creditValue)
-        : getRangeForCredit(activeType, creditFromParcel(activeType, parcelValue, selectedMonths)),
-    [activeType, creditValue, parcelValue, selectedMonths, simulationType]
-  )
-
-  const parcelBounds = useMemo(
-    () => getParcelBounds(activeType, selectedMonths),
-    [activeType, selectedMonths]
-  )
+  const limits = useMemo(() => getLimits(activeType, activeItem), [activeType, activeItem])
 
   const computedCredit = useMemo(() => {
     if (simulationType === "credito") return creditValue
-    return creditFromParcel(activeType, parcelValue, selectedMonths)
-  }, [simulationType, creditValue, activeType, parcelValue, selectedMonths])
+    return creditFromParcel(activeType, limits, parcelValue, selectedMonths)
+  }, [simulationType, creditValue, activeType, limits, parcelValue, selectedMonths])
 
   const computedParcel = useMemo(() => {
     if (simulationType === "parcela") return parcelValue
-    return parcelFromCredit(activeType, creditValue, selectedMonths)
-  }, [simulationType, parcelValue, activeType, creditValue, selectedMonths])
+    return parcelFromCredit(activeType, limits, creditValue, selectedMonths)
+  }, [simulationType, parcelValue, activeType, limits, creditValue, selectedMonths])
+
+  const currentPlans = useMemo(
+    () => getPlans(getRangeForCredit(activeType, computedCredit), limits),
+    [activeType, computedCredit, limits]
+  )
+
+  const parcelBounds = useMemo(
+    () => getParcelBounds(activeType, limits, selectedMonths),
+    [activeType, limits, selectedMonths]
+  )
 
   // Garante que o prazo selecionado existe na faixa atual de crédito
   useEffect(() => {
-    const available = currentRange.plans.map((p) => p.months)
+    const available = currentPlans.map((p) => p.months)
     if (!available.includes(selectedMonths)) {
       setSelectedMonths(available[Math.floor(available.length / 2)])
     }
-  }, [currentRange, selectedMonths])
+  }, [currentPlans, selectedMonths])
 
   useEffect(() => {
     if (simulationType !== "parcela") return
@@ -184,25 +239,30 @@ export function Calculator({ embedded = false }: CalculatorProps) {
   }, [parcelBounds, parcelValue, simulationType])
 
   const handleTypeChange = (type: ProductType) => {
+    const item = type.items[0]
+    const values = getInitialValues(type, item)
     setActiveType(type)
-    setActiveItem(type.items[0])
-    const months = type.ranges[0].plans[Math.floor(type.ranges[0].plans.length / 2)].months
-    setSelectedMonths(months)
-    const midCredit = Math.round((type.minCredit + type.maxCredit) / 2)
-    setCreditValue(midCredit)
-    const bounds = getParcelBounds(type, months)
-    setParcelValue(Math.round((bounds.minParcel + bounds.maxParcel) / 2))
+    setActiveItem(item)
+    setSelectedMonths(values.months)
+    setCreditValue(values.credit)
+    setParcelValue(values.parcel)
+  }
+
+  // Ao trocar de item, mantém o valor escolhido se ele couber na nova faixa.
+  // Prazo e parcela são ajustados pelos efeitos acima.
+  const handleItemChange = (item: Item) => {
+    const next = getLimits(activeType, item)
+    setActiveItem(item)
+    setCreditValue((credit) => Math.min(Math.max(credit, next.minCredit), next.maxCredit))
   }
 
   const handleSimulationTypeChange = (type: SimulationType) => {
     if (type === simulationType) return
 
     if (type === "credito") {
-      const credit = creditFromParcel(activeType, parcelValue, selectedMonths)
-      const clamped = Math.min(Math.max(credit, activeType.minCredit), activeType.maxCredit)
-      setCreditValue(Math.round(clamped))
+      setCreditValue(Math.round(creditFromParcel(activeType, limits, parcelValue, selectedMonths)))
     } else {
-      const parcel = parcelFromCredit(activeType, creditValue, selectedMonths)
+      const parcel = parcelFromCredit(activeType, limits, creditValue, selectedMonths)
       const clamped = Math.min(Math.max(parcel, parcelBounds.minParcel), parcelBounds.maxParcel)
       setParcelValue(Math.round(clamped))
     }
@@ -211,13 +271,12 @@ export function Calculator({ embedded = false }: CalculatorProps) {
   }
 
   const adminRate = useMemo(() => {
-    const plan =
-      currentRange.plans.find((p) => p.months === selectedMonths) ?? currentRange.plans[0]
+    const plan = currentPlans.find((p) => p.months === selectedMonths) ?? currentPlans[0]
     return plan.adminRate
-  }, [currentRange, selectedMonths])
+  }, [currentPlans, selectedMonths])
 
-  const sliderMin = simulationType === "credito" ? activeType.minCredit : parcelBounds.minParcel
-  const sliderMax = simulationType === "credito" ? activeType.maxCredit : parcelBounds.maxParcel
+  const sliderMin = simulationType === "credito" ? limits.minCredit : parcelBounds.minParcel
+  const sliderMax = simulationType === "credito" ? limits.maxCredit : parcelBounds.maxParcel
   const sliderValue = simulationType === "credito" ? creditValue : parcelValue
   const sliderStep = simulationType === "credito" ? 1000 : 50
 
@@ -281,17 +340,17 @@ export function Calculator({ embedded = false }: CalculatorProps) {
                 <div className="flex flex-wrap gap-2 justify-center">
                   {activeType.items.map((item) => (
                     <button
-                      key={item}
-                      onClick={() => setActiveItem(item)}
+                      key={item.name}
+                      onClick={() => handleItemChange(item)}
                       className={cn(
                         "rounded-full text-sm font-medium transition-all",
                         embedded ? "px-3.5 py-1.5" : "px-4 py-2",
-                        activeItem === item
+                        activeItem.name === item.name
                           ? "bg-primary text-primary-foreground shadow-md"
                           : "bg-secondary text-muted-foreground hover:bg-primary/10 hover:text-primary"
                       )}
                     >
-                      {item}
+                      {item.name}
                     </button>
                   ))}
                 </div>
@@ -367,7 +426,7 @@ export function Calculator({ embedded = false }: CalculatorProps) {
                   Prazo em meses
                 </label>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  {currentRange.plans.map((plan) => (
+                  {currentPlans.map((plan) => (
                     <button
                       key={plan.months}
                       onClick={() => setSelectedMonths(plan.months)}
