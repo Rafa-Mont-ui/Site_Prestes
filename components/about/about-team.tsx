@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 const moments = [
   {
     src: "/sobre-time.jpg",
-    alt: "Time Prestes Consórcios",
+    alt: "Time Prestes",
     title: "Um time unido",
     description: "Profissionais alinhados para entregar o melhor atendimento em cada etapa.",
   },

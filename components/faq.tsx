@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     question: "O consórcio é seguro?",
-    answer: "Sim, muito seguro! O sistema de consórcios é regulamentado e fiscalizado pelo Banco Central do Brasil. Além disso, a Prestes Consórcios trabalha com as principais administradoras do mercado, garantindo total segurança ao seu investimento.",
+    answer: "Sim, muito seguro! O sistema de consórcios é regulamentado e fiscalizado pelo Banco Central do Brasil. Além disso, a Prestes trabalha com as principais administradoras do mercado, garantindo total segurança ao seu investimento.",
   },
 ]
 

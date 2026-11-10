@@ -54,7 +54,7 @@ export function Hero() {
             </h1>
 
             <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-              Com a Prestes Consórcios, você conquista imóveis, veículos e muito mais de forma planejada e inteligente. Simule agora e descubra a parcela ideal para o seu bolso.
+              Com a Prestes, você conquista imóveis, veículos e muito mais de forma planejada e inteligente. Simule agora e descubra a parcela ideal para o seu bolso.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-4">

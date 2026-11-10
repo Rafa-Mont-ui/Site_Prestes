@@ -19,7 +19,7 @@ const products = [
     name: "Consórcio de Veículos",
     description: "Realize o sonho do carro novo ou seminovo. Você também pode usar para caminhões, ônibus e utilitários.",
     creditRange: "R$ 30 mil a R$ 800 mil",
-    terms: "60 a 100 meses",
+    terms: "40 a 120 meses",
     highlight: false,
   },
   {

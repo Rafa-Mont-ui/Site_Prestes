@@ -40,7 +40,7 @@ export function AboutStory() {
             </h2>
             <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                A Prestes Consórcios acredita que conquistar um bem não precisa ser
+                A Prestes acredita que conquistar um bem não precisa ser
                 complicado nem cheio de surpresas. Por isso, unimos conhecimento de
                 mercado, atendimento humano e planos claros para cada perfil de cliente.
               </p>

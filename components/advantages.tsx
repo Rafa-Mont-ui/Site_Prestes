@@ -27,7 +27,7 @@ const advantages = [
   {
     icon: Users,
     title: "Parcelas Flexíveis",
-    description: "Escolha o prazo e a parcela que melhor se encaixam no seu orçamento. Planos de 48 a 240 meses.",
+    description: "Escolha o prazo e a parcela que melhor se encaixam no seu orçamento. Planos de 40 a 240 meses.",
   },
   {
     icon: HeadphonesIcon,
@@ -49,7 +49,7 @@ export function Advantages() {
         >
           <span className="inline-block text-sm font-semibold text-primary mb-2">Por que consórcio?</span>
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance">
-            Vantagens do consórcio Prestes
+            Vantagens do consórcio
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             Descubra por que milhares de pessoas escolhem o consórcio para conquistar seus bens de forma inteligente e planejada.

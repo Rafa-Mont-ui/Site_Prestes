@@ -10,9 +10,9 @@ import { AboutTeam } from "@/components/about/about-team"
 import { AboutTrust } from "@/components/about/about-trust"
 
 export const metadata: Metadata = {
-  title: "Sobre Nós | Prestes Consórcios",
+  title: "Sobre Nós | Prestes",
   description:
-    "Conheça a Prestes Consórcios: atendimento próximo, transparência e planejamento para realizar seus sonhos com segurança.",
+    "Conheça a Prestes: atendimento próximo, transparência e planejamento para realizar seus sonhos com segurança.",
 }
 
 export default function SobrePage() {

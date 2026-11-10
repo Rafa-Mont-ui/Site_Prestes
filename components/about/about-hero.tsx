@@ -51,7 +51,7 @@ export function AboutHero() {
             </h1>
 
             <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-              A Prestes Consórcios nasceu para aproximar o planejamento financeiro de quem
+              A Prestes nasceu para aproximar o planejamento financeiro de quem
               quer conquistar imóveis, veículos e muito mais com segurança, clareza e
               acompanhamento de perto.
             </p>
@@ -94,7 +94,7 @@ export function AboutHero() {
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-xl">
               <Image
                 src="/sobre-time.jpg"
-                alt="Equipe Prestes Consórcios"
+                alt="Equipe Prestes"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
