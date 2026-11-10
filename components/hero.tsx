@@ -3,6 +3,7 @@
 import { ArrowRight, CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Calculator } from "@/components/calculator"
+import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 
@@ -18,6 +19,18 @@ export function Hero() {
       {/* Background decoration */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-0 right-0 hidden w-1/2 h-full bg-brand-gray/40 rounded-bl-[100px] lg:block lg:rounded-bl-[200px]" />
+        {/* Ícone da marca grande e clarinho atrás do texto, saindo pela borda esquerda */}
+        <div aria-hidden="true" className="absolute inset-0 hidden lg:block">
+          <div className="relative mx-auto h-full max-w-7xl">
+            <Image
+              src="/brand/icone-prestes.svg"
+              alt=""
+              width={426}
+              height={510}
+              className="absolute -left-32 top-1/2 h-auto w-[540px] -translate-y-1/2 select-none opacity-[0.06]"
+            />
+          </div>
+        </div>
       </div>
 
       <motion.div

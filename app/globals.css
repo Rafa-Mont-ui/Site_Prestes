@@ -147,7 +147,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    /* Sem fundo no body: o fundo fica no <html>, para a marca d'água fixa aparecer por trás do conteúdo */
+    /* Sem fundo no body: o fundo fica no <html>, para as decorações com -z-10 das seções aparecerem */
     @apply text-foreground;
   }
   h1, h2, h3, h4, h5, h6 {
