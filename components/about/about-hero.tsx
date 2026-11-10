@@ -20,7 +20,7 @@ export function AboutHero() {
       </div>
 
       <motion.div
-        className="mx-auto max-w-7xl px-4 lg:px-8"
+        className="mx-auto max-w-7xl px-5 md:px-4 lg:px-8"
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}

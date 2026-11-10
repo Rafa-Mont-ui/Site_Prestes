@@ -9,7 +9,7 @@ import { motion } from "framer-motion"
 export function CTA() {
   return (
     <section className="py-16 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 md:px-4 lg:px-8">
         <motion.div
           className="relative overflow-hidden rounded-3xl bg-primary px-6 py-16 sm:px-12 lg:px-20 lg:py-24"
           initial={{ opacity: 0, y: 24 }}
@@ -42,19 +42,19 @@ export function CTA() {
               <h2 className="text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl text-balance">
                 Pronto para realizar seus sonhos?
               </h2>
-              <p className="mt-4 text-lg text-primary-foreground/80 leading-relaxed">
+              <p className="mt-3 text-base md:mt-4 md:text-lg text-primary-foreground/80 leading-relaxed">
                 Entre em contato com nossa equipe de especialistas e descubra o melhor plano para você. Atendimento personalizado e sem compromisso.
               </p>
             </motion.div>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-4"
               initial={{ opacity: 0, x: 16 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ delay: 0.15, duration: 0.45 }}
             >
-              <Button size="lg" variant="secondary" className="text-base" asChild>
+              <Button size="lg" variant="secondary" className="h-12 text-base md:h-10" asChild>
                 <Link href="/#simulador">
                   Simular Agora
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -62,7 +62,7 @@ export function CTA() {
               </Button>
               <Button
                 size="lg"
-                className="text-base bg-[#25D366] text-white hover:bg-[#128C7E] border-0"
+                className="h-12 text-base bg-[#25D366] text-white hover:bg-[#128C7E] border-0 md:h-10"
                 asChild
               >
                 <a href="https://wa.me/5541987767168" target="_blank" rel="noopener noreferrer">

@@ -23,7 +23,7 @@ export default function NotFound() {
           <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Página não encontrada
           </h1>
-          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+          <p className="mt-3 text-base md:mt-4 md:text-lg leading-relaxed text-muted-foreground">
             O endereço que você acessou não existe ou foi alterado. Volte para o início ou fale com a nossa equipe.
           </p>
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">

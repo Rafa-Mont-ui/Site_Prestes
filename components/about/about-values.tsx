@@ -33,7 +33,7 @@ const values = [
 export function AboutValues() {
   return (
     <section className="py-16 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 md:px-4 lg:px-8">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -47,7 +47,7 @@ export function AboutValues() {
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance">
             O que guia a Prestes todos os dias
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="mt-3 text-base md:mt-4 md:text-lg text-muted-foreground max-w-2xl mx-auto">
             Valores que transformam atendimento em confiança e planejamento em conquista.
           </p>
         </motion.div>

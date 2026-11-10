@@ -27,7 +27,7 @@ const moments = [
 export function AboutTeam() {
   return (
     <section className="py-16 lg:py-24 bg-secondary/50">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 md:px-4 lg:px-8">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -41,7 +41,7 @@ export function AboutTeam() {
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance">
             Quem cuida do seu projeto
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="mt-3 text-base md:mt-4 md:text-lg text-muted-foreground max-w-2xl mx-auto">
             Uma equipe preparada para orientar, acompanhar e celebrar cada conquista com você.
           </p>
         </motion.div>

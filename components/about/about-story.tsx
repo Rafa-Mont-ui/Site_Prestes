@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 export function AboutStory() {
   return (
     <section className="py-16 lg:py-24 bg-secondary/50">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 md:px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <motion.div
             className="relative"

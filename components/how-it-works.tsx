@@ -33,9 +33,9 @@ const steps = [
 export function HowItWorks() {
   return (
     <section id="como-funciona" className="py-16 lg:py-24 bg-navy text-white">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 md:px-4 lg:px-8">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12 md:mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.25 }}
@@ -45,7 +45,7 @@ export function HowItWorks() {
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-balance">
             Como funciona o consórcio
           </h2>
-          <p className="mt-4 text-lg text-white/70 max-w-2xl mx-auto">
+          <p className="mt-3 text-base md:mt-4 md:text-lg text-white/70 max-w-2xl mx-auto">
             Entenda como é simples conquistar seus sonhos com o consórcio Prestes
           </p>
         </motion.div>
@@ -56,7 +56,8 @@ export function HowItWorks() {
             aria-hidden
           />
 
-          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* No celular: linha do tempo alinhada à esquerda (ícone ao lado do texto). A partir de md, grade centralizada. */}
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-8">
           {steps.map((step, index) => {
             const Icon = step.icon
             return (
@@ -68,23 +69,29 @@ export function HowItWorks() {
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ delay: index * 0.1, duration: 0.45 }}
               >
-                <div className="text-center">
-                  <div className="relative flex justify-center items-center h-24 mb-6">
+                {/* Linha que liga uma etapa à próxima, só no celular */}
+                {index < steps.length - 1 && (
+                  <div aria-hidden className="absolute left-8 top-[4.5rem] -bottom-8 w-px bg-white/15 md:hidden" />
+                )}
+                <div className="flex items-start gap-5 text-left md:block md:text-center">
+                  <div className="relative flex shrink-0 justify-center items-center md:h-24 md:mb-6">
                     <div className="relative z-10 inline-flex">
-                      <div className="w-24 h-24 rounded-full bg-white/5 ring-1 ring-white/15 flex items-center justify-center">
-                        <Icon className="h-10 w-10 text-brand" />
+                      <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-white/5 ring-1 ring-white/15 flex items-center justify-center">
+                        <Icon className="h-7 w-7 md:h-10 md:w-10 text-brand" />
                       </div>
-                      <span className="absolute -top-2 -right-2 z-20 w-8 h-8 rounded-full bg-brand text-brand-foreground flex items-center justify-center text-sm font-bold">
+                      <span className="absolute -top-2 -right-2 z-20 w-7 h-7 md:w-8 md:h-8 rounded-full bg-brand text-brand-foreground flex items-center justify-center text-xs md:text-sm font-bold">
                         {step.step}
                       </span>
                     </div>
                   </div>
-                  <h3 className="text-xl font-semibold mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-white/70 leading-relaxed text-sm">
-                    {step.description}
-                  </p>
+                  <div className="min-w-0 pt-2 md:pt-0">
+                    <h3 className="text-lg font-semibold mb-1.5 md:text-xl md:mb-3">
+                      {step.title}
+                    </h3>
+                    <p className="text-white/70 leading-relaxed text-sm">
+                      {step.description}
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             )

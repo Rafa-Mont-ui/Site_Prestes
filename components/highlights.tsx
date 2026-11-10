@@ -63,7 +63,7 @@ export function Highlights() {
     // O cartão sobe sobre a borda do hero azul-marinho; o fundo cinza continua na seção do
     // simulador logo abaixo. flow-root impede que a margem negativa "vaze" para a seção.
     <section aria-label="A Prestes em números" className="flow-root bg-secondary/50">
-      <div className="relative z-10 mx-auto -mt-12 max-w-7xl px-4 lg:-mt-16 lg:px-8">
+      <div className="relative z-10 mx-auto -mt-12 max-w-7xl px-5 md:px-4 lg:-mt-16 lg:px-8">
         <motion.div
           className="rounded-3xl border border-border bg-card px-6 py-8 text-foreground shadow-xl shadow-primary/10 sm:px-10 lg:py-10"
           initial={{ opacity: 0, y: 24 }}

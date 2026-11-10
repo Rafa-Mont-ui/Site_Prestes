@@ -45,13 +45,13 @@ const faqs = [
 export function FAQ() {
   return (
     <section id="duvidas" className="py-16 lg:py-24 bg-secondary/50">
-      <div className="mx-auto max-w-3xl px-4 lg:px-8">
+      <div className="mx-auto max-w-3xl px-5 md:px-4 lg:px-8">
         <div className="text-center mb-12">
           <span className="inline-block text-sm font-semibold text-primary mb-2">Tire suas dúvidas</span>
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance">
             Perguntas frequentes
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-3 text-base md:mt-4 md:text-lg text-muted-foreground">
             Confira as respostas para as principais dúvidas sobre consórcio
           </p>
         </div>

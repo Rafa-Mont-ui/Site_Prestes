@@ -33,7 +33,7 @@ const trustPoints = [
 export function AboutTrust() {
   return (
     <section className="py-16 lg:py-24 bg-navy text-white">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 md:px-4 lg:px-8">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -47,7 +47,7 @@ export function AboutTrust() {
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-balance">
             Segurança que se sente no atendimento
           </h2>
-          <p className="mt-4 text-lg text-white/70 max-w-2xl mx-auto">
+          <p className="mt-3 text-base md:mt-4 md:text-lg text-white/70 max-w-2xl mx-auto">
             Confiança não é só promessa: é consistência, clareza e presença em cada decisão.
           </p>
         </motion.div>

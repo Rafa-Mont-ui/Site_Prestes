@@ -1,7 +1,9 @@
 "use client"
 
+import { useRef } from "react"
 import { Shield, Percent, PiggyBank, Building2, Users, HeadphonesIcon } from "lucide-react"
 import { motion } from "framer-motion"
+import { CarouselDots } from "@/components/carousel-dots"
 
 const advantages = [
   {
@@ -37,9 +39,11 @@ const advantages = [
 ]
 
 export function Advantages() {
+  const scrollerRef = useRef<HTMLDivElement>(null)
+
   return (
     <section id="vantagens" className="py-16 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 md:px-4 lg:px-8">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -51,25 +55,29 @@ export function Advantages() {
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance">
             Vantagens do consórcio
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="mt-3 text-base md:mt-4 md:text-lg text-muted-foreground max-w-2xl mx-auto">
             Descubra por que milhares de pessoas escolhem o consórcio para conquistar seus bens de forma inteligente e planejada.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* No celular vira carrossel de deslizar (o próximo cartão aparece na borda); a partir de md, grade */}
+        <div
+          ref={scrollerRef}
+          className="-mx-5 flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:snap-none md:grid-cols-2 md:gap-8 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3"
+        >
           {advantages.map((advantage, index) => {
             const Icon = advantage.icon
             return (
               <motion.div
                 key={index}
-                className="group relative bg-card rounded-2xl border border-border p-6 hover:border-brand/50 hover:shadow-lg transition-all duration-300"
+                className="group relative w-[80%] shrink-0 snap-start bg-card rounded-2xl border border-border p-6 hover:border-brand/50 hover:shadow-lg transition-all duration-300 md:w-auto"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ delay: index * 0.08, duration: 0.4 }}
                 whileHover={{ y: -4 }}
               >
-                <div className="flex items-start gap-4">
+                <div className="flex flex-col items-start gap-4 md:flex-row">
                   <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center group-hover:bg-brand group-hover:text-brand-foreground transition-colors">
                     <Icon className="h-6 w-6 text-brand group-hover:text-brand-foreground transition-colors" />
                   </div>
@@ -86,6 +94,7 @@ export function Advantages() {
             )
           })}
         </div>
+        <CarouselDots scrollerRef={scrollerRef} count={advantages.length} />
       </div>
     </section>
   )

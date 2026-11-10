@@ -365,7 +365,7 @@ export function Calculator({ embedded = false }: CalculatorProps) {
               })}
             </div>
 
-            <div className={cn(embedded ? "p-5 @lg:p-6" : "p-6 lg:p-8")}>
+            <div className={cn(embedded ? "p-5 @lg:p-6" : "p-5 md:p-6 lg:p-8")}>
               {/* Itens do tipo selecionado */}
               <div className={cn(embedded ? "mb-5" : "mb-8")}>
                 <label className="block text-sm font-medium text-muted-foreground mb-3">
@@ -524,7 +524,7 @@ export function Calculator({ embedded = false }: CalculatorProps) {
               >
                 <Button
                   size={embedded ? "default" : "lg"}
-                  className={cn("text-base", embedded ? "w-full" : "w-full sm:w-auto")}
+                  className={cn("text-base", embedded ? "w-full" : "h-12 w-full sm:w-auto md:h-10")}
                   asChild
                 >
                   <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
@@ -533,7 +533,7 @@ export function Calculator({ embedded = false }: CalculatorProps) {
                   </a>
                 </Button>
                 {!embedded && (
-                  <Button variant="outline" size="lg" className="text-base" asChild>
+                  <Button variant="outline" size="lg" className="h-12 text-base md:h-10" asChild>
                     <a
                       href={`${WHATSAPP_URL}?text=${encodeURIComponent("Olá! Gostaria de falar com um especialista sobre consórcio.")}`}
                       target="_blank"
@@ -568,13 +568,13 @@ export function Calculator({ embedded = false }: CalculatorProps) {
 
   return (
     <section id="simulador" className="py-16 lg:py-24 bg-secondary/50 scroll-mt-16">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 md:px-4 lg:px-8">
         <div className="text-center mb-12">
           <span className="inline-block text-sm font-semibold text-primary mb-2">Simulador</span>
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance">
             Simule seu consórcio agora
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="mt-3 text-base md:mt-4 md:text-lg text-muted-foreground max-w-2xl mx-auto">
             Escolha o tipo de bem, defina o valor do crédito ou da parcela e descubra a simulação ideal para realizar seus sonhos.
           </p>
         </div>

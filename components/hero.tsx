@@ -39,7 +39,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-5 md:px-4 lg:px-8">
         <motion.div
           className="max-w-3xl"
           initial={{ opacity: 0, y: 24 }}
@@ -55,18 +55,18 @@ export function Hero() {
             Conquiste seus sonhos
           </div>
 
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl text-balance">
+          <h1 className="text-[2.5rem]/[1.1] font-bold tracking-tight text-white sm:text-5xl lg:text-6xl text-balance">
             Realize seus{" "}
             <span className="text-brand">projetos de vida</span>{" "}
             sem pagar juros
           </h1>
 
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/75 text-pretty">
+          <p className="mt-6 max-w-2xl text-base leading-7 text-white/75 text-pretty md:text-lg md:leading-relaxed">
             Com a Prestes, você conquista imóveis, veículos e muito mais de forma planejada e inteligente. Simule agora e descubra a parcela ideal para o seu bolso.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
-            <Button size="lg" className="bg-brand text-base text-white hover:bg-brand/90" asChild>
+            <Button size="lg" className="h-12 bg-brand text-base text-white hover:bg-brand/90 md:h-10" asChild>
               <Link href="/#simulador">
                 Simular meu consórcio
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -74,7 +74,7 @@ export function Hero() {
             </Button>
             <Button
               size="lg"
-              className="border-0 bg-[#25D366] text-base text-white hover:bg-[#128C7E]"
+              className="h-12 border-0 bg-[#25D366] text-base text-white hover:bg-[#128C7E] md:h-10"
               asChild
             >
               <a href={WHATSAPP_HREF} target="_blank" rel="noopener noreferrer">

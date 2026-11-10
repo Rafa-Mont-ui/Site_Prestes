@@ -1,10 +1,12 @@
 "use client"
 
+import { useRef } from "react"
 import { Home, Car, Bike, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { selectInSimulator } from "@/components/calculator"
+import { CarouselDots } from "@/components/carousel-dots"
 
 const products = [
   {
@@ -37,9 +39,11 @@ const products = [
 ]
 
 export function Products() {
+  const scrollerRef = useRef<HTMLDivElement>(null)
+
   return (
     <section className="py-16 lg:py-24">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 md:px-4 lg:px-8">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
@@ -51,18 +55,23 @@ export function Products() {
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance">
             O que você pode conquistar
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="mt-3 text-base md:mt-4 md:text-lg text-muted-foreground max-w-2xl mx-auto">
             Com a carta de crédito, escolha o bem que faz mais sentido para o seu momento de vida.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+        {/* No celular vira carrossel de deslizar; pt/pb deixam espaço para o selo "Mais procurado"
+            e a sombra, que a rolagem horizontal cortaria. A partir de md, grade. */}
+        <div
+          ref={scrollerRef}
+          className="-mx-5 flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pt-4 pb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:snap-none md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pt-0 md:pb-0 lg:grid-cols-3 lg:gap-8"
+        >
           {products.map((product, index) => {
             const Icon = product.icon
             return (
               <motion.div
                 key={index}
-                className={`relative flex h-full flex-col rounded-2xl p-6 lg:p-8 transition-[box-shadow,border-color] duration-300 ${
+                className={`relative flex h-full w-[80%] shrink-0 snap-start flex-col rounded-2xl p-6 md:w-auto lg:p-8 transition-[box-shadow,border-color] duration-300 ${
                   product.highlight
                     ? "bg-primary text-primary-foreground shadow-xl shadow-primary/25"
                     : "bg-card text-foreground border border-border hover:border-brand/50 hover:shadow-lg"
@@ -116,7 +125,7 @@ export function Products() {
 
                 <Button
                   variant={product.highlight ? "secondary" : "default"}
-                  className="mt-6 w-full"
+                  className="mt-6 h-11 w-full md:h-9"
                   asChild
                 >
                   <Link
@@ -131,6 +140,7 @@ export function Products() {
             )
           })}
         </div>
+        <CarouselDots scrollerRef={scrollerRef} count={products.length} className="mt-0" />
       </div>
     </section>
   )

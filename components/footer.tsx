@@ -32,7 +32,7 @@ export function Footer() {
     <footer className="bg-footer text-footer-foreground" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">Rodapé</h2>
 
-      <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-16">
+      <div className="mx-auto max-w-7xl px-5 py-12 md:px-4 lg:px-8 lg:py-16">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           {/* Logo and contact */}
           <div className="space-y-6">

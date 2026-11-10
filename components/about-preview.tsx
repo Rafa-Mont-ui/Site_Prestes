@@ -16,7 +16,7 @@ const points = [
 export function AboutPreview() {
   return (
     <section className="py-16 lg:py-24 bg-secondary/50">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+      <div className="mx-auto max-w-7xl px-5 md:px-4 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <motion.div
             className="relative"
@@ -56,7 +56,7 @@ export function AboutPreview() {
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance">
               Pessoas de verdade cuidando do seu plano
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+            <p className="mt-3 text-base md:mt-4 md:text-lg leading-relaxed text-muted-foreground">
               Por trás de cada simulação existe uma equipe que conhece o mercado e atende você
               de perto, sem pressa e sem letras miúdas.
             </p>
