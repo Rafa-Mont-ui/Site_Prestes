@@ -4,6 +4,7 @@ import { Home, Car, Bike, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { selectInSimulator } from "@/components/calculator"
 
 const products = [
   {
@@ -13,6 +14,7 @@ const products = [
     creditRange: "R$ 80 mil a R$ 1,5 milhão",
     terms: "120 a 240 meses",
     highlight: true,
+    simulator: { typeId: "imoveis", itemName: "Novo ou Usado" },
   },
   {
     icon: Car,
@@ -21,14 +23,16 @@ const products = [
     creditRange: "R$ 30 mil a R$ 800 mil",
     terms: "40 a 120 meses",
     highlight: false,
+    simulator: { typeId: "moveis", itemName: "Carros" },
   },
   {
     icon: Bike,
     name: "Consórcio de Motos",
     description: "Acelere seus planos com uma moto do jeito que você sempre quis. Parcelas que cabem no bolso.",
     creditRange: "R$ 10 mil a R$ 80 mil",
-    terms: "48 a 80 meses",
+    terms: "40 a 80 meses",
     highlight: false,
+    simulator: { typeId: "moveis", itemName: "Motos" },
   },
 ]
 
@@ -115,7 +119,10 @@ export function Products() {
                   className="mt-6 w-full"
                   asChild
                 >
-                  <Link href="#simulador">
+                  <Link
+                    href="#simulador"
+                    onClick={() => selectInSimulator(product.simulator.typeId, product.simulator.itemName)}
+                  >
                     Simular agora
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>

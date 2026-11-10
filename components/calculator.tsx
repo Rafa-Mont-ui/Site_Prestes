@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useEffect } from "react"
+import { useState, useMemo, useEffect, useCallback } from "react"
 import { Car, Home, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -185,6 +185,18 @@ function getInitialValues(type: ProductType, item: Item) {
 
 const defaultValues = getInitialValues(productTypes[0], productTypes[0].items[0])
 
+// Permite que outras seções (ex.: cards de produtos) abram o simulador já com um item escolhido
+const SELECT_EVENT = "simulador:selecionar"
+type SimulatorSelection = { typeId: string; itemName: string }
+
+export function selectInSimulator(typeId: string, itemName: string) {
+  window.dispatchEvent(
+    new CustomEvent<SimulatorSelection>(SELECT_EVENT, { detail: { typeId, itemName } })
+  )
+}
+
+const WHATSAPP_URL = "https://wa.me/5541987767168"
+
 type SimulationType = "credito" | "parcela"
 
 type CalculatorProps = {
@@ -238,15 +250,27 @@ export function Calculator({ embedded = false }: CalculatorProps) {
     }
   }, [parcelBounds, parcelValue, simulationType])
 
-  const handleTypeChange = (type: ProductType) => {
-    const item = type.items[0]
+  const selectProduct = useCallback((type: ProductType, item: Item) => {
     const values = getInitialValues(type, item)
     setActiveType(type)
     setActiveItem(item)
     setSelectedMonths(values.months)
     setCreditValue(values.credit)
     setParcelValue(values.parcel)
-  }
+  }, [])
+
+  const handleTypeChange = (type: ProductType) => selectProduct(type, type.items[0])
+
+  useEffect(() => {
+    const onSelect = (event: Event) => {
+      const { typeId, itemName } = (event as CustomEvent<SimulatorSelection>).detail
+      const type = productTypes.find((t) => t.id === typeId)
+      const item = type?.items.find((i) => i.name === itemName)
+      if (type && item) selectProduct(type, item)
+    }
+    window.addEventListener(SELECT_EVENT, onSelect)
+    return () => window.removeEventListener(SELECT_EVENT, onSelect)
+  }, [selectProduct])
 
   // Ao trocar de item, mantém o valor escolhido se ele couber na nova faixa.
   // Prazo e parcela são ajustados pelos efeitos acima.
@@ -295,6 +319,16 @@ export function Calculator({ embedded = false }: CalculatorProps) {
       currency: "BRL",
       maximumFractionDigits: 0,
     }).format(value)
+
+  // Leva a simulação pronta para a conversa no WhatsApp
+  const whatsappMessage = [
+    "Olá! Fiz uma simulação no site e quero saber mais:",
+    `• Bem: ${activeItem.name} (${activeType.name})`,
+    `• Crédito: ${formatCurrency(computedCredit)}`,
+    `• Prazo: ${selectedMonths} meses`,
+    `• Parcela estimada: ${formatCurrency(computedParcel)}`,
+  ].join("\n")
+  const whatsappHref = `${WHATSAPP_URL}?text=${encodeURIComponent(whatsappMessage)}`
 
   const sliderProgress = ((sliderValue - sliderMin) / (sliderMax - sliderMin)) * 100
 
@@ -493,7 +527,7 @@ export function Calculator({ embedded = false }: CalculatorProps) {
                   className={cn("text-base", embedded ? "w-full" : "w-full sm:w-auto")}
                   asChild
                 >
-                  <a href="https://wa.me/5541987767168" target="_blank" rel="noopener noreferrer">
+                  <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                     Quero esse consórcio
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </a>
@@ -519,7 +553,8 @@ export function Calculator({ embedded = false }: CalculatorProps) {
 
   if (embedded) {
     return (
-      <div id="simulador" className="w-full">
+      // scroll-mt: ao ir para #simulador, o menu fixo não cobre o topo do simulador
+      <div id="simulador" className="w-full scroll-mt-24">
         {calculatorCard}
       </div>
     )
