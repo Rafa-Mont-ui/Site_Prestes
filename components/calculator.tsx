@@ -533,8 +533,14 @@ export function Calculator({ embedded = false }: CalculatorProps) {
                   </a>
                 </Button>
                 {!embedded && (
-                  <Button variant="outline" size="lg" className="text-base">
-                    Falar com especialista
+                  <Button variant="outline" size="lg" className="text-base" asChild>
+                    <a
+                      href={`${WHATSAPP_URL}?text=${encodeURIComponent("Olá! Gostaria de falar com um especialista sobre consórcio.")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Falar com especialista
+                    </a>
                   </Button>
                 )}
               </div>
@@ -561,9 +567,10 @@ export function Calculator({ embedded = false }: CalculatorProps) {
   }
 
   return (
-    <section id="simulador" className="py-16 lg:py-24 bg-secondary/50">
+    <section id="simulador" className="py-16 lg:py-24 bg-secondary/50 scroll-mt-16">
       <div className="mx-auto max-w-7xl px-4 lg:px-8">
         <div className="text-center mb-12">
+          <span className="inline-block text-sm font-semibold text-primary mb-2">Simulador</span>
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance">
             Simule seu consórcio agora
           </h2>

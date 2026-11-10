@@ -60,23 +60,24 @@ function CountUp({ value, prefix, suffix }: CountUpProps) {
 
 export function Highlights() {
   return (
-    // Sobe um pouco sobre o fim do hero para a faixa ficar "encaixada" no painel cinza
-    <section aria-label="A Prestes em números" className="relative z-10 -mt-6 lg:-mt-14">
-      <div className="mx-auto max-w-7xl px-4 lg:px-8">
+    // O cartão sobe sobre a borda do hero azul-marinho; o fundo cinza continua na seção do
+    // simulador logo abaixo. flow-root impede que a margem negativa "vaze" para a seção.
+    <section aria-label="A Prestes em números" className="flow-root bg-secondary/50">
+      <div className="relative z-10 mx-auto -mt-12 max-w-7xl px-4 lg:-mt-16 lg:px-8">
         <motion.div
-          className="rounded-3xl bg-primary px-6 py-8 text-primary-foreground shadow-xl shadow-primary/20 sm:px-10 lg:py-10"
+          className="rounded-3xl border border-border bg-card px-6 py-8 text-foreground shadow-xl shadow-primary/10 sm:px-10 lg:py-10"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="grid grid-cols-2 gap-y-8 lg:grid-cols-4 lg:divide-x lg:divide-primary-foreground/15">
+          <div className="grid grid-cols-2 gap-y-8 lg:grid-cols-4 lg:divide-x lg:divide-border">
             {highlights.map((item) => (
               <div key={item.label} className="px-2 text-center lg:px-6">
-                <p className="font-heading text-3xl font-bold sm:text-4xl">
+                <p className="font-heading text-3xl font-bold text-primary sm:text-4xl">
                   <CountUp value={item.value} prefix={item.prefix} suffix={item.suffix} />
                 </p>
-                <p className="mt-2 text-sm text-primary-foreground/70">{item.label}</p>
+                <p className="mt-2 text-sm text-muted-foreground">{item.label}</p>
               </div>
             ))}
           </div>
